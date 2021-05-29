@@ -14,7 +14,7 @@ const fs = require('fs');
     const _defaultFilename = 'crontab.json';
     const _defaultRefreshRate = '* * * * *';
 
-    const _loadJobsTab = () => JSON.parse(fs.readFileSync(path.resolve(`${__dirname}/${_defaultFilename}`)) || '');
+    const _loadJobsTab = () => JSON.parse(fs.readFileSync(path.join(__dirname, _defaultFilename)) || '');
 
     var _procsArr = [];
 

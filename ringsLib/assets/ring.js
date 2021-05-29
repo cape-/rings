@@ -12,7 +12,6 @@ Ring.prototype.render = function(children = []) {
     if (!(children instanceof Array))
         children = [children];
 
-
     // DIV HEAD > SPAN (title)
     var rtSpanTitle = document.createElement('span');
     rtSpanTitle.textContent = this.toString();
