@@ -1,0 +1,23 @@
+.rings-theme-good .rings-constellation {
+    color: black;
+    background: antiquewhite;
+}
+
+.rings-theme-good .rings-ring {
+    background: tomato;
+    color: white;
+}
+
+.rings-theme-good .rings-task {
+    background: darkslategray;
+    color: wheat;
+}
+
+.rings-theme-good .rings-tag {
+    border: 1px solid skyblue;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.rings-theme-good .rings-ringlog {
+    color: skyblue;
+}

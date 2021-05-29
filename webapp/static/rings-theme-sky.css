@@ -1,0 +1,35 @@
+.rings-theme-sky .rings-constellation {
+    background: royalblue;
+    color: white;
+}
+
+.rings-theme-sky .rings-ring {
+    background: cornflowerblue;
+    color: white
+}
+
+
+/* .rings-theme-sky .rings-ring-head {
+    background: slateblue;
+    color: lavender;
+}
+
+.rings-theme-sky .rings-ring-items {
+    background: slateblue;
+    color: lavender;
+} */
+
+.rings-theme-sky .rings-task {
+    background: lightskyblue;
+    color: white;
+}
+
+.rings-theme-sky .rings-tag {
+    border-color: hotpink;
+    background: teal;
+    color: white
+}
+
+.rings-theme-sky .rings-ringlog {
+    color: teal;
+}

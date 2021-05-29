@@ -1,0 +1,25 @@
+[{
+        "cronExp": "* * * * * *",
+        "cronFunc": "job 1"
+    },
+    {
+        "cronExp": "* * * * * *",
+        "cronFunc": "job 2"
+    },
+    {
+        "cronExp": "* * * * * *",
+        "cronFunc": "job 2bis"
+    },
+    {
+        "cronExp": "*/3 * * * * *",
+        "cronFunc": "job /3"
+    },
+    {
+        "cronExp": "*/5 * * * * *",
+        "cronFunc": "job /5"
+    },
+    {
+        "cronExp": "*/2 * * * * *",
+        "cronFunc": "job /2"
+    }
+]

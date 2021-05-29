@@ -1,0 +1,67 @@
+.rings-constellation {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-size: 3rem;
+    text-align: center;
+    color: black;
+    font-weight: lighter;
+    background: antiquewhite;
+}
+
+.rings-ring {
+    margin: 20px;
+    padding: 10px;
+    background: rebeccapurple;
+    border-radius: 15px;
+    font-size: 3rem;
+    color: white;
+    font-weight: normal;
+    text-align: left;
+}
+
+.rings-ring-head {
+    width: 100%;
+    position: static;
+}
+
+.rings-ring-items {
+    display: flex;
+    flex-wrap: wrap-reverse;
+    align-items: stretch;
+}
+
+.rings-ring-item-container {
+    flex: 1 0 33%;
+    display: flex;
+}
+
+.rings-task {
+    margin: 30px 15px;
+    padding: 0px 20px 20px 20px;
+    background: burlywood;
+    color: rebeccapurple;
+    border-radius: 15px;
+    font-size: 3rem;
+    text-align: center;
+}
+
+.rings-tag {
+    margin: 5px;
+    padding: 6px 10px;
+    border: 1px solid rebeccapurple;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    display: inline-block;
+    font-size: .75rem;
+    font-weight: 600;
+    color: white
+}
+
+.rings-ringlog {
+    font-size: .75rem;
+    font-family: mono;
+    text-decoration: overline;
+    color: rebeccapurple;
+}
