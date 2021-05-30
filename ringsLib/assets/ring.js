@@ -9,11 +9,11 @@ export default function Ring(name) {
     return this;
 };
 Ring.prototype._getSelfNode = function() {
-    if (!this.htmlNode) {
-        this.htmlNode = document.createElement('div');
-        this.htmlNode.classList.add('rings-ring', this.toClassName());
+    if (!this.selfDomElement) {
+        this.selfDomElement = document.createElement('div');
+        this.selfDomElement.classList.add('rings-ring', this.toClassName());
     }
-    return this.htmlNode;
+    return this.selfDomElement;
 };
 Ring.prototype._updateSelfNode = function(newNode) {
     var self = this._getSelfNode();
@@ -21,7 +21,7 @@ Ring.prototype._updateSelfNode = function(newNode) {
     // If mounted
         self.parentNode.replaceChild(newNode, self);
     else
-        this.htmlNode = newNode;
+        this.selfDomElement = newNode;
 };
 Ring.prototype.connectEventsThread = function(eventsThread) {
     this.eventsThread = eventsThread;

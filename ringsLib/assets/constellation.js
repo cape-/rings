@@ -17,11 +17,11 @@ ConstellationSingleton.prototype._initEventsThread = function() {
     return rt;
 };
 ConstellationSingleton.prototype._getSelfNode = function() {
-    if (!this.htmlNode) {
-        this.htmlNode = document.createElement('div');
-        this.htmlNode.classList.add('rings-constellation');
+    if (!this.selfDomElement) {
+        this.selfDomElement = document.createElement('div');
+        this.selfDomElement.classList.add('rings-constellation');
     }
-    return this.htmlNode;
+    return this.selfDomElement;
 };
 ConstellationSingleton.prototype._updateSelfNode = function(newNode) {
     var self = this._getSelfNode();
@@ -29,7 +29,7 @@ ConstellationSingleton.prototype._updateSelfNode = function(newNode) {
     // If mounted
         self.parentNode.replaceChild(newNode, self);
     else
-        this.htmlNode = newNode;
+        this.selfDomElement = newNode;
 };
 ConstellationSingleton.prototype.render = function(children) {
     children = children || this.rings.map(r => r.render()) || [];
@@ -67,7 +67,7 @@ ConstellationSingleton.prototype.render = function(children) {
 
         rtNewTaskTitleInput.value = "";
         this.ring(_ring).render();
-        this.eventsThread.dispatchEvent(new CustomEvent(config.Events.dataDefault, { detail: { newTask } }));
+        // this.emit(config.Events.Task.created, newTask)
         // TODO: IMPLEMENT
         // if (!rtNewTaskTitleInput.value)
         //     return;

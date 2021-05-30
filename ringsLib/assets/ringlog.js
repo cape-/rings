@@ -8,11 +8,11 @@ export default function RingLog(r) {
     return this;
 };
 RingLog.prototype._getSelfNode = function() {
-    if (!this.htmlNode) {
-        this.htmlNode = document.createElement('div');
-        this.htmlNode.classList.add('rings-ringlog');
+    if (!this.selfDomElement) {
+        this.selfDomElement = document.createElement('div');
+        this.selfDomElement.classList.add('rings-ringlog');
     }
-    return this.htmlNode;
+    return this.selfDomElement;
 };
 RingLog.prototype._updateSelfNode = function(newNode) {
     var self = this._getSelfNode();
@@ -20,7 +20,7 @@ RingLog.prototype._updateSelfNode = function(newNode) {
     // If mounted
         self.parentNode.replaceChild(newNode, self);
     else
-        this.htmlNode = newNode;
+        this.selfDomElement = newNode;
 };
 RingLog.prototype.connectEventsThread = function(eventsThread) {
     this.eventsThread = eventsThread;
