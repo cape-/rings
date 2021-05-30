@@ -6,14 +6,14 @@ export default function RingLog(r) {
     this.id = defaultType + ":" + this.logTime.getTime();
     this.ring = { id: r.id, name: r.name };
     return this;
-}
+};
 RingLog.prototype._getSelfNode = function() {
     if (!this.htmlNode) {
         this.htmlNode = document.createElement('div');
         this.htmlNode.classList.add('rings-ringlog');
     }
     return this.htmlNode;
-}
+};
 RingLog.prototype._updateSelfNode = function(newNode) {
     var self = this._getSelfNode();
     if (self.parentNode)
@@ -21,7 +21,16 @@ RingLog.prototype._updateSelfNode = function(newNode) {
         self.parentNode.replaceChild(newNode, self);
     else
         this.htmlNode = newNode;
-}
+};
+RingLog.prototype.connectEventsThread = function(eventsThread) {
+    this.eventsThread = eventsThread;
+    // TODO: Remove dummy event listener
+    this.eventsThread.addEventListener(config.Events.dataDefault, function(e) {
+        console.log(`${this.toString()}: EVENT RECEIVED ${JSON.stringify(e.detail)}`);
+    }.bind(this));
+    // Propagate
+    // this.<childs>.forEach(ch => ch.connectEventsThread(this.eventsThread));
+};
 RingLog.prototype.render = function(children) {
     children = children || [];
 

@@ -14,7 +14,7 @@ Ring.prototype._getSelfNode = function() {
         this.htmlNode.classList.add('rings-ring', this.toClassName());
     }
     return this.htmlNode;
-}
+};
 Ring.prototype._updateSelfNode = function(newNode) {
     var self = this._getSelfNode();
     if (self.parentNode)
@@ -22,7 +22,16 @@ Ring.prototype._updateSelfNode = function(newNode) {
         self.parentNode.replaceChild(newNode, self);
     else
         this.htmlNode = newNode;
-}
+};
+Ring.prototype.connectEventsThread = function(eventsThread) {
+    this.eventsThread = eventsThread;
+    // TODO: Remove dummy event listener
+    this.eventsThread.addEventListener(config.Events.dataDefault, function(e) {
+        console.log(`${this.toString()}: EVENT RECEIVED ${JSON.stringify(e.detail)}`);
+    }.bind(this));
+    // Propagate
+    this.tasks.forEach(t => t.connectEventsThread(this.eventsThread));
+};
 Ring.prototype.render = function(children) {
     children = children || this.tasks.map(t => t.render()) || [];
     // DIV HEAD > SPAN (title)

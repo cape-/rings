@@ -5,14 +5,14 @@ export default function Tag(title) {
     this.id = defaultType + ":" + title.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s/g, '_');
     this.title = title;
     return this;
-}
+};
 Tag.prototype._getSelfNode = function() {
     if (!this.htmlNode) {
         this.htmlNode = document.createElement('div');
         this.htmlNode.classList.add('rings-tag');
     }
     return this.htmlNode;
-}
+};
 Tag.prototype._updateSelfNode = function(newNode) {
     var self = this._getSelfNode();
     if (self.parentNode)
@@ -20,7 +20,16 @@ Tag.prototype._updateSelfNode = function(newNode) {
         self.parentNode.replaceChild(newNode, self);
     else
         this.htmlNode = newNode;
-}
+};
+Tag.prototype.connectEventsThread = function(eventsThread) {
+    this.eventsThread = eventsThread;
+    // TODO: Remove dummy event listener
+    this.eventsThread.addEventListener(config.Events.dataDefault, function(e) {
+        console.log(`${this.toString()}: EVENT RECEIVED ${JSON.stringify(e.detail)}`);
+    }.bind(this));
+    // Propagate
+    // this.<childs>.forEach(ch => ch.connectEventsThread(this.eventsThread));
+};
 Tag.prototype.render = function(children) {
     children = children || [];
 

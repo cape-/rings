@@ -32,7 +32,7 @@ Task.prototype._getSelfNode = function() {
         this.selfDomElement.classList.add('rings-task');
     }
     return this.selfDomElement;
-}
+};
 Task.prototype._updateSelfNode = function(newNode) {
     var self = this._getSelfNode();
     if (self.parentNode)
@@ -40,7 +40,17 @@ Task.prototype._updateSelfNode = function(newNode) {
         self.parentNode.replaceChild(newNode, self);
     else
         this.selfDomElement = newNode;
-}
+};
+Task.prototype.connectEventsThread = function(eventsThread) {
+    this.eventsThread = eventsThread;
+    // TODO: Remove dummy event listener
+    this.eventsThread.addEventListener(config.Events.dataDefault, function(e) {
+        console.log(`${this.toString()}: EVENT RECEIVED ${JSON.stringify(e.detail)}`);
+    }.bind(this));
+    // Propagate
+    this.tags.forEach(t => t.connectEventsThread(this.eventsThread));
+    this.ringLog.forEach(l => l.connectEventsThread(this.eventsThread));
+};
 Task.prototype.render = function(children) {
     children = children || [...this.tags.map(t => t.render()),
         ...this.ringLog.map(l => l.render())
@@ -80,7 +90,7 @@ Task.prototype.setDone = function() {
 };
 Task.prototype.getTags = function() {
     return this.tags;
-}
+};
 Task.prototype.logRing = function(r) {
     this.ringLog.push(new RingLog(r));
-}
+};

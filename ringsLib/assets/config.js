@@ -1,4 +1,7 @@
 export default {
+    Events: {
+        dataDefault: "Rings:data"
+    },
     Task: {
         defaultType: "task",
         defaultTitle: "<Unknown Task>",
@@ -13,4 +16,4 @@ export default {
     RingLog: {
         defaultType: "log"
     }
-}
+};
