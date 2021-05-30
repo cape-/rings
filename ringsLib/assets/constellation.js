@@ -3,18 +3,8 @@ import Task from './task.js';
 
 function ConstellationSingleton(r) {
     this.rings = Array.from(r);
-    this.eventsThread = this._initEventsThread();
-    // Propagate
-    this.rings.forEach(r => r.connectEventsThread(this.eventsThread))
+    this.connectEventsThread(new EventTarget());
     return this;
-};
-ConstellationSingleton.prototype._initEventsThread = function() {
-    var rt = new EventTarget();
-    // TODO: Remove dummy event listener
-    rt.addEventListener(config.Events.dataDefault, function(e) {
-        console.log(`${this.toString()}: EVENT RECEIVED ${JSON.stringify(e.detail)}`);
-    }.bind(this));
-    return rt;
 };
 ConstellationSingleton.prototype._getSelfNode = function() {
     if (!this.selfDomElement) {
@@ -29,6 +19,23 @@ ConstellationSingleton.prototype._updateSelfNode = function(newNode) {
     // If mounted replace it in the parent
         self.parentNode.replaceChild(newNode, self);
     this.selfDomElement = newNode;
+};
+ConstellationSingleton.prototype.emit = function(eventType, payload) {
+    this.eventsThread.dispatchEvent(new CustomEvent(config.Events.dataDefault, {
+        detail: {
+            eventType,
+            payload
+        }
+    }));
+};
+ConstellationSingleton.prototype.connectEventsThread = function(eventsThread) {
+    this.eventsThread = eventsThread;
+    // TODO: Remove dummy event listener
+    this.eventsThread.addEventListener(config.Events.dataDefault, function(e) {
+        console.log(`${this.toString()}: EVENT RECEIVED ${JSON.stringify(e.detail)}`);
+    }.bind(this));
+    // Propagate
+    this.rings.forEach(r => r.connectEventsThread(this.eventsThread));
 };
 ConstellationSingleton.prototype.render = function(children) {
     children = children || this.rings.map(r => r.render()) || [];

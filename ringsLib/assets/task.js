@@ -40,6 +40,14 @@ Task.prototype._updateSelfNode = function(newNode) {
         self.parentNode.replaceChild(newNode, self);
     this.selfDomElement = newNode;
 };
+Task.prototype.emit = function(eventType, payload) {
+    this.eventsThread.dispatchEvent(new CustomEvent(config.Events.dataDefault, {
+        detail: {
+            eventType,
+            payload
+        }
+    }));
+};
 Task.prototype.connectEventsThread = function(eventsThread) {
     this.eventsThread = eventsThread;
     // TODO: Remove dummy event listener
