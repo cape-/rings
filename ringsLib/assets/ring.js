@@ -18,6 +18,7 @@ Ring.prototype.getSelfNode = function() {
 Ring.prototype.updateSelfNode = function(newNode) {
     var self = this.getSelfNode();
     if (self.parentNode)
+    // If mounted
         self.parentNode.replaceChild(newNode, self);
     else
         this.htmlNode = newNode;
@@ -37,7 +38,7 @@ Ring.prototype.render = function(children = []) {
     // DIV HEAD > BUTTON
     var rtBtnAdd = document.createElement('button');
     rtBtnAdd.innerText = "+";
-    rtBtnAdd.onclick = function() {
+    rtBtnAdd.onclick = function handleAddTask() {
         if (!rtNewTitleInput.value)
             return;
         const newTask = new Task(rtNewTitleInput.value);
@@ -68,7 +69,7 @@ Ring.prototype.render = function(children = []) {
     rtDivHead.appendChild(rtBtnAdd);
     // DIV ITEMS
     var rtDivItems = document.createElement('div');
-    rtDivItems.classList.add('rings-ring-items');
+    rtDivItems.classList.add('rings-items', 'rings-ring-items');
     itemContainers.forEach(ic => rtDivItems.appendChild(ic));
     // ROOT
     var rt = document.createElement('div');

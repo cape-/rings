@@ -27,18 +27,19 @@ export default function Task() {
     return this;
 };
 Task.prototype.getSelfNode = function() {
-    if (!this.htmlNode) {
-        this.htmlNode = document.createElement('div');
-        this.htmlNode.classList.add('rings-task');
+    if (!this.selfDomElement) {
+        this.selfDomElement = document.createElement('div');
+        this.selfDomElement.classList.add('rings-task');
     }
-    return this.htmlNode;
+    return this.selfDomElement;
 }
 Task.prototype.updateSelfNode = function(newNode) {
     var self = this.getSelfNode();
     if (self.parentNode)
+    // If mounted
         self.parentNode.replaceChild(newNode, self);
     else
-        this.htmlNode = newNode;
+        this.selfDomElement = newNode;
 }
 Task.prototype.render = function(children = []) {
     // H4
@@ -50,7 +51,7 @@ Task.prototype.render = function(children = []) {
         children = [children];
 
     var rtDivItems = document.createElement('div');
-    rtDivItems.classList.add('rings-task-items');
+    rtDivItems.classList.add('rings-items', 'rings-task-items');
     children.forEach(ch => rtDivItems.appendChild(ch));
 
     // ROOT

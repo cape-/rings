@@ -17,18 +17,24 @@ RingLog.prototype.getSelfNode = function() {
 RingLog.prototype.updateSelfNode = function(newNode) {
     var self = this.getSelfNode();
     if (self.parentNode)
+    // If mounted
         self.parentNode.replaceChild(newNode, self);
     else
         this.htmlNode = newNode;
 }
 RingLog.prototype.render = function(children = []) {
+    // DIV ITEMS
+    if (!(children instanceof Array))
+        children = [children];
+
+    var rtDivItems = document.createElement('div');
+    rtDivItems.classList.add('rings-items', 'rings-ringlog-items');
+    children.forEach(ch => rtDivItems.appendChild(ch));
+
+    // ROOT
     var rt = document.createElement('div');
     rt.classList.add('rings-ringlog');
     rt.textContent = this.toString();
-    if (children instanceof Array)
-        children.forEach(c => rt.appendChild(c));
-    else
-        rt.appendChild(children);
 
     this.updateSelfNode(rt);
     return this.getSelfNode();
