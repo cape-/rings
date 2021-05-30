@@ -1,16 +1,16 @@
 export default {
-    task: {
+    Task: {
         defaultType: "task",
         defaultTitle: "<Unknown Task>",
         idHashAlgorithm: "sha256"
     },
-    ring: {
+    Ring: {
         defaultType: "ring"
     },
-    tag: {
+    Tag: {
         defaultType: "tag"
     },
-    ringLog: {
+    RingLog: {
         defaultType: "log"
     }
 }

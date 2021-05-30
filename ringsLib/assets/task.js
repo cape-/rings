@@ -5,7 +5,7 @@ import config from './config.js';
 const crypto = { createHash: () => ({ update: (_h) => ({ digest: () => (_h + (new Date()).toISOString()).length }) }) } // TODO: Disable this in backend
 
 export default function Task() {
-    const { defaultType, defaultTitle, idHashAlgorithm } = config.task;
+    const { defaultType, defaultTitle, idHashAlgorithm } = config.Task;
     switch (typeof arguments[0]) {
         case 'string':
             var title = arguments[0];

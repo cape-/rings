@@ -2,7 +2,7 @@ import config from './config.js';
 import Task from './task.js';
 
 export default function Ring(name) {
-    const { defaultType } = config.ring;
+    const { defaultType } = config.Ring;
     this.id = defaultType + ":" + name;
     this.name = name;
     this.tasks = [];

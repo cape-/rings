@@ -1,7 +1,7 @@
 import config from './config.js';
 
 export default function RingLog(r) {
-    const { defaultType } = config.ringLog;
+    const { defaultType } = config.RingLog;
     this.logTime = new Date();
     this.id = defaultType + ":" + this.logTime.getTime();
     this.ring = { id: r.id, name: r.name };

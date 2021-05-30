@@ -1,7 +1,7 @@
 import config from './config.js';
 
 export default function Tag(title) {
-    const { defaultType } = config.tag;
+    const { defaultType } = config.Tag;
     this.id = defaultType + ":" + title.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s/g, '_');
     this.title = title;
     return this;
