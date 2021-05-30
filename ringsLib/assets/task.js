@@ -26,22 +26,26 @@ export default function Task() {
     this.done = false;
     return this;
 };
-Task.prototype.getSelfNode = function() {
+Task.prototype._getSelfNode = function() {
     if (!this.selfDomElement) {
         this.selfDomElement = document.createElement('div');
         this.selfDomElement.classList.add('rings-task');
     }
     return this.selfDomElement;
 }
-Task.prototype.updateSelfNode = function(newNode) {
-    var self = this.getSelfNode();
+Task.prototype._updateSelfNode = function(newNode) {
+    var self = this._getSelfNode();
     if (self.parentNode)
     // If mounted
         self.parentNode.replaceChild(newNode, self);
     else
         this.selfDomElement = newNode;
 }
-Task.prototype.render = function(children = []) {
+Task.prototype.render = function(children) {
+    children = children || [...this.tags.map(t => t.render()),
+        ...this.ringLog.map(l => l.render())
+    ] || [];
+
     // H4
     var rtH4 = document.createElement('h4');
     rtH4.textContent = this.toString();
@@ -60,8 +64,8 @@ Task.prototype.render = function(children = []) {
     rt.appendChild(rtH4);
     rt.appendChild(rtDivItems);
 
-    this.updateSelfNode(rt);
-    return this.getSelfNode();
+    this._updateSelfNode(rt);
+    return this._getSelfNode();
 };
 Task.prototype.toString = function() { return `${this.title} (id:${this.id})${this.done ? ' [DONE]':''}` };
 Task.prototype.equals = function(t) { return this.id === t.id };

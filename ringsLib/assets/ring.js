@@ -8,23 +8,23 @@ export default function Ring(name) {
     this.tasks = [];
     return this;
 };
-Ring.prototype.getSelfNode = function() {
+Ring.prototype._getSelfNode = function() {
     if (!this.htmlNode) {
         this.htmlNode = document.createElement('div');
         this.htmlNode.classList.add('rings-ring', this.toClassName());
     }
     return this.htmlNode;
 }
-Ring.prototype.updateSelfNode = function(newNode) {
-    var self = this.getSelfNode();
+Ring.prototype._updateSelfNode = function(newNode) {
+    var self = this._getSelfNode();
     if (self.parentNode)
     // If mounted
         self.parentNode.replaceChild(newNode, self);
     else
         this.htmlNode = newNode;
 }
-Ring.prototype.render = function(children = []) {
-
+Ring.prototype.render = function(children) {
+    children = children || this.tasks.map(t => t.render()) || [];
     // DIV HEAD > SPAN (title)
     var rtSpanTitle = document.createElement('span');
     rtSpanTitle.textContent = this.toString();
@@ -77,8 +77,8 @@ Ring.prototype.render = function(children = []) {
     rt.appendChild(rtDivHead);
     rt.appendChild(rtDivItems);
 
-    this.updateSelfNode(rt);
-    return this.getSelfNode();
+    this._updateSelfNode(rt);
+    return this._getSelfNode();
 };
 Ring.prototype.toString = function() { return `The ${this.name} Ring` };
 Ring.prototype.toClassName = function() {

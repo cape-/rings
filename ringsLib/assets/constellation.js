@@ -4,22 +4,24 @@ function ConstellationSingleton(r) {
     this.rings = Array.from(r);
     return this;
 };
-ConstellationSingleton.prototype.getSelfNode = function() {
+ConstellationSingleton.prototype._getSelfNode = function() {
     if (!this.htmlNode) {
         this.htmlNode = document.createElement('div');
         this.htmlNode.classList.add('rings-constellation');
     }
     return this.htmlNode;
 }
-ConstellationSingleton.prototype.updateSelfNode = function(newNode) {
-    var self = this.getSelfNode();
+ConstellationSingleton.prototype._updateSelfNode = function(newNode) {
+    var self = this._getSelfNode();
     if (self.parentNode)
     // If mounted
         self.parentNode.replaceChild(newNode, self);
     else
         this.htmlNode = newNode;
 }
-ConstellationSingleton.prototype.render = function(children = []) {
+ConstellationSingleton.prototype.render = function(children) {
+    children = children || this.rings.map(r => r.render()) || [];
+
     // DIV ITEMS
     if (!(children instanceof Array))
         children = [children];
@@ -75,8 +77,8 @@ ConstellationSingleton.prototype.render = function(children = []) {
     rt.appendChild(rtDivNewTaskBar);
     rt.appendChild(rtDivItems);
 
-    this.updateSelfNode(rt);
-    return this.getSelfNode();
+    this._updateSelfNode(rt);
+    return this._getSelfNode();
 };
 ConstellationSingleton.prototype.renderView = function() {
     var c = this;

@@ -6,22 +6,24 @@ export default function Tag(title) {
     this.title = title;
     return this;
 }
-Tag.prototype.getSelfNode = function() {
+Tag.prototype._getSelfNode = function() {
     if (!this.htmlNode) {
         this.htmlNode = document.createElement('div');
         this.htmlNode.classList.add('rings-tag');
     }
     return this.htmlNode;
 }
-Tag.prototype.updateSelfNode = function(newNode) {
-    var self = this.getSelfNode();
+Tag.prototype._updateSelfNode = function(newNode) {
+    var self = this._getSelfNode();
     if (self.parentNode)
     // If mounted
         self.parentNode.replaceChild(newNode, self);
     else
         this.htmlNode = newNode;
 }
-Tag.prototype.render = function(children = []) {
+Tag.prototype.render = function(children) {
+    children = children || [];
+
     // DIV ITEMS
     if (!(children instanceof Array))
         children = [children];
@@ -36,8 +38,8 @@ Tag.prototype.render = function(children = []) {
     rt.textContent = this.toString();
     rt.appendChild(rtDivItems);
 
-    this.updateSelfNode(rt);
-    return this.getSelfNode();
+    this._updateSelfNode(rt);
+    return this._getSelfNode();
 };
 Tag.prototype.toString = function() { return `Tag:${this.title}` };
 Tag.prototype.equals = function(t) { return this.id === t.id };

@@ -7,22 +7,24 @@ export default function RingLog(r) {
     this.ring = { id: r.id, name: r.name };
     return this;
 }
-RingLog.prototype.getSelfNode = function() {
+RingLog.prototype._getSelfNode = function() {
     if (!this.htmlNode) {
         this.htmlNode = document.createElement('div');
         this.htmlNode.classList.add('rings-ringlog');
     }
     return this.htmlNode;
 }
-RingLog.prototype.updateSelfNode = function(newNode) {
-    var self = this.getSelfNode();
+RingLog.prototype._updateSelfNode = function(newNode) {
+    var self = this._getSelfNode();
     if (self.parentNode)
     // If mounted
         self.parentNode.replaceChild(newNode, self);
     else
         this.htmlNode = newNode;
 }
-RingLog.prototype.render = function(children = []) {
+RingLog.prototype.render = function(children) {
+    children = children || [];
+
     // DIV ITEMS
     if (!(children instanceof Array))
         children = [children];
@@ -36,8 +38,8 @@ RingLog.prototype.render = function(children = []) {
     rt.classList.add('rings-ringlog');
     rt.textContent = this.toString();
 
-    this.updateSelfNode(rt);
-    return this.getSelfNode();
+    this._updateSelfNode(rt);
+    return this._getSelfNode();
 };
 RingLog.prototype.toString = function() { return `Ring ${this.ring.name} at ${this.logTime.toISOString()}` };
 RingLog.prototype.equals = function(t) { return this.id === t.id };
