@@ -28,26 +28,26 @@ Ring.prototype.render = function(children) {
     // DIV HEAD > SPAN (title)
     var rtSpanTitle = document.createElement('span');
     rtSpanTitle.textContent = this.toString();
-    // DIV HEAD > SPAN (divider)
-    var rtSpanDivider = document.createElement('span');
-    rtSpanDivider.innerHTML = "&nbsp;";
-    // DIV HEAD > INPUT
-    var rtNewTitleInput = document.createElement('input');
-    rtNewTitleInput.type = "text";
-    rtNewTitleInput.placeholder = "Nueva tarea...";
-    // DIV HEAD > BUTTON
-    var rtBtnAdd = document.createElement('button');
-    rtBtnAdd.innerText = "+";
-    rtBtnAdd.onclick = function handleAddTask() {
-        if (!rtNewTitleInput.value)
-            return;
-        const newTask = new Task(rtNewTitleInput.value);
-        rtNewTitleInput.value = "";
-        this.addTask(newTask);
-        children.push(newTask.render());
-        rt.getElementsByClassName('rings-ring-items')[0].innerHTML =
-            this.render(children).getElementsByClassName('rings-ring-items')[0].innerHTML;
-    }.bind(this);
+    // // DIV HEAD > SPAN (divider)
+    // var rtSpanDivider = document.createElement('span');
+    // rtSpanDivider.innerHTML = "&nbsp;";
+    // // DIV HEAD > INPUT
+    // var rtNewTitleInput = document.createElement('input');
+    // rtNewTitleInput.type = "text";
+    // rtNewTitleInput.placeholder = "Nueva tarea...";
+    // // DIV HEAD > BUTTON
+    // var rtBtnAdd = document.createElement('button');
+    // rtBtnAdd.innerText = "+";
+    // rtBtnAdd.onclick = function handleAddTask() {
+    //     if (!rtNewTitleInput.value)
+    //         return;
+    //     const newTask = new Task(rtNewTitleInput.value);
+    //     rtNewTitleInput.value = "";
+    //     this.addTask(newTask);
+    //     children.push(newTask.render());
+    //     rt.getElementsByClassName('rings-ring-items')[0].innerHTML =
+    //         this.render(children).getElementsByClassName('rings-ring-items')[0].innerHTML;
+    // }.bind(this);
 
     // ITEM CONTAINERS
     if (!(children instanceof Array))
@@ -64,9 +64,9 @@ Ring.prototype.render = function(children) {
     var rtDivHead = document.createElement('div');
     rtDivHead.classList.add('rings-ring-head');
     rtDivHead.appendChild(rtSpanTitle);
-    rtDivHead.appendChild(rtSpanDivider);
-    rtDivHead.appendChild(rtNewTitleInput);
-    rtDivHead.appendChild(rtBtnAdd);
+    // rtDivHead.appendChild(rtSpanDivider);
+    // rtDivHead.appendChild(rtNewTitleInput);
+    // rtDivHead.appendChild(rtBtnAdd);
     // DIV ITEMS
     var rtDivItems = document.createElement('div');
     rtDivItems.classList.add('rings-items', 'rings-ring-items');
