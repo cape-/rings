@@ -39,64 +39,6 @@ Ring.prototype.connectEventsThread = function(eventsThread) {
     // Propagate
     this.tasks.forEach(t => t.connectEventsThread(this.eventsThread));
 };
-Ring.prototype.render = function(children) {
-    children = children || this.tasks.map(t => t.render()) || [];
-    // DIV HEAD > SPAN (title)
-    var rtSpanTitle = document.createElement('span');
-    rtSpanTitle.textContent = this.toString();
-    // // DIV HEAD > SPAN (divider)
-    // var rtSpanDivider = document.createElement('span');
-    // rtSpanDivider.innerHTML = "&nbsp;";
-    // // DIV HEAD > INPUT
-    // var rtNewTitleInput = document.createElement('input');
-    // rtNewTitleInput.type = "text";
-    // rtNewTitleInput.placeholder = "Nueva tarea...";
-    // // DIV HEAD > BUTTON
-    // var rtBtnAdd = document.createElement('button');
-    // rtBtnAdd.innerText = "+";
-    // rtBtnAdd.onclick = function handleAddTask() {
-    //     if (!rtNewTitleInput.value)
-    //         return;
-    //     const newTask = new Task(rtNewTitleInput.value);
-    //     rtNewTitleInput.value = "";
-    //     this.addTask(newTask);
-    //     children.push(newTask.render());
-    //     rt.getElementsByClassName('rings-ring-items')[0].innerHTML =
-    //         this.render(children).getElementsByClassName('rings-ring-items')[0].innerHTML;
-    // }.bind(this);
-
-    // ITEM CONTAINERS
-    if (!(children instanceof Array))
-        children = [children];
-
-    var itemContainers = children.map(ch => {
-        var itemContainer = document.createElement('div');
-        itemContainer.appendChild(ch);
-        itemContainer.classList.add('rings-ring-item-container');
-        return itemContainer;
-    });
-
-    // DIV HEAD
-    var rtDivHead = document.createElement('div');
-    rtDivHead.classList.add('rings-ring-head');
-    rtDivHead.appendChild(rtSpanTitle);
-    // rtDivHead.appendChild(rtSpanDivider);
-    // rtDivHead.appendChild(rtNewTitleInput);
-    // rtDivHead.appendChild(rtBtnAdd);
-    // DIV ITEMS
-    var rtDivItems = document.createElement('div');
-    rtDivItems.classList.add('rings-items', 'rings-ring-items');
-    itemContainers.forEach(ic => rtDivItems.appendChild(ic));
-    // ROOT
-    var rt = document.createElement('div');
-    rt.classList.add('rings-ring', this.toClassName());
-    rt.appendChild(rtDivHead);
-    rt.appendChild(rtDivItems);
-
-    this._updateSelfNode(rt);
-    return this._getSelfNode();
-};
-Ring.prototype.toString = function() { return `The ${this.name} Ring` };
 Ring.prototype.toClassName = function() {
     return this.name
         .normalize("NFD")
@@ -104,7 +46,6 @@ Ring.prototype.toClassName = function() {
         .replace(/[\u0300-\u036f]/g, "")
         .replace(/\s/g, "-")
 };
-Ring.prototype.equals = function(r) { return this.id === r.id };
 /**
  * Returns the Task from this ring.
  * @param {Task} taskId The Id of the Task to be retrieved
@@ -122,6 +63,7 @@ Ring.prototype.task = function(tId) {
 Ring.prototype.addTask = function(t) {
     if (!t instanceof Task)
         throw TypeError("Task expected.");
+    // TODO: Define
     // if (t.done)
     //     throw TypeError("Done task not expected.");
     this.tasks.push(t);
@@ -138,4 +80,43 @@ Ring.prototype.removeTask = function(cb) {
     if (tIdx !== -1)
         this.tasks.splice(tIdx, 1);
     return this;
+};
+Ring.prototype.equals = function(r) { return this.id === r.id };
+Ring.prototype.toString = function() { return `The ${this.name} Ring` };
+Ring.prototype.render = function(children) {
+    children = children || this.tasks.map(t => t.render()) || [];
+
+    // DIV HEAD > SPAN (title)
+    var rtSpanTitle = document.createElement('span');
+    rtSpanTitle.textContent = this.toString();
+
+    // ITEM CONTAINERS
+    if (!(children instanceof Array))
+        children = [children];
+
+    var itemContainers = children.map(ch => {
+        var itemContainer = document.createElement('div');
+        itemContainer.appendChild(ch);
+        itemContainer.classList.add('rings-ring-item-container');
+        return itemContainer;
+    });
+
+    // DIV HEAD
+    var rtDivHead = document.createElement('div');
+    rtDivHead.classList.add('rings-ring-head');
+    rtDivHead.appendChild(rtSpanTitle);
+
+    // DIV ITEMS
+    var rtDivItems = document.createElement('div');
+    rtDivItems.classList.add('rings-items', 'rings-ring-items');
+    itemContainers.forEach(ic => rtDivItems.appendChild(ic));
+
+    // ROOT
+    var rt = document.createElement('div');
+    rt.classList.add('rings-ring', this.toClassName());
+    rt.appendChild(rtDivHead);
+    rt.appendChild(rtDivItems);
+
+    this._updateSelfNode(rt);
+    return this._getSelfNode();
 };

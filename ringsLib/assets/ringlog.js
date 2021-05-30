@@ -38,6 +38,8 @@ RingLog.prototype.connectEventsThread = function(eventsThread) {
     // Propagate
     // this.<childs>.forEach(ch => ch.connectEventsThread(this.eventsThread));
 };
+RingLog.prototype.equals = function(t) { return this.id === t.id };
+RingLog.prototype.toString = function() { return `Ring ${this.ring.name} at ${this.logTime.toISOString()}` };
 RingLog.prototype.render = function(children) {
     children = children || [];
 
@@ -57,5 +59,3 @@ RingLog.prototype.render = function(children) {
     this._updateSelfNode(rt);
     return this._getSelfNode();
 };
-RingLog.prototype.toString = function() { return `Ring ${this.ring.name} at ${this.logTime.toISOString()}` };
-RingLog.prototype.equals = function(t) { return this.id === t.id };

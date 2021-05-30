@@ -58,6 +58,23 @@ Task.prototype.connectEventsThread = function(eventsThread) {
     this.tags.forEach(t => t.connectEventsThread(this.eventsThread));
     this.ringLog.forEach(l => l.connectEventsThread(this.eventsThread));
 };
+/**
+ * Set the task as done.
+ * @returns self
+ */
+Task.prototype.setDone = function() {
+    this.doneDate = new Date();
+    this.done = true
+    return this
+};
+Task.prototype.getTags = function() {
+    return this.tags;
+};
+Task.prototype.logRing = function(r) {
+    this.ringLog.push(new RingLog(r));
+};
+Task.prototype.equals = function(t) { return this.id === t.id };
+Task.prototype.toString = function() { return `${this.title} (id:${this.id})${this.done ? ' [DONE]':''}` };
 Task.prototype.render = function(children) {
     children = children || [...this.tags.map(t => t.render()),
         ...this.ringLog.map(l => l.render())
@@ -83,21 +100,4 @@ Task.prototype.render = function(children) {
 
     this._updateSelfNode(rt);
     return this._getSelfNode();
-};
-Task.prototype.toString = function() { return `${this.title} (id:${this.id})${this.done ? ' [DONE]':''}` };
-Task.prototype.equals = function(t) { return this.id === t.id };
-/**
- * Set the task as done.
- * @returns self
- */
-Task.prototype.setDone = function() {
-    this.doneDate = new Date();
-    this.done = true
-    return this
-};
-Task.prototype.getTags = function() {
-    return this.tags;
-};
-Task.prototype.logRing = function(r) {
-    this.ringLog.push(new RingLog(r));
 };

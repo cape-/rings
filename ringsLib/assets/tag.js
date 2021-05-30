@@ -37,6 +37,8 @@ Tag.prototype.connectEventsThread = function(eventsThread) {
     // Propagate
     // this.<childs>.forEach(ch => ch.connectEventsThread(this.eventsThread));
 };
+Tag.prototype.equals = function(t) { return this.id === t.id };
+Tag.prototype.toString = function() { return `Tag:${this.title}` };
 Tag.prototype.render = function(children) {
     children = children || [];
 
@@ -57,5 +59,3 @@ Tag.prototype.render = function(children) {
     this._updateSelfNode(rt);
     return this._getSelfNode();
 };
-Tag.prototype.toString = function() { return `Tag:${this.title}` };
-Tag.prototype.equals = function(t) { return this.id === t.id };

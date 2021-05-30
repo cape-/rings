@@ -37,70 +37,6 @@ ConstellationSingleton.prototype.connectEventsThread = function(eventsThread) {
     // Propagate
     this.rings.forEach(r => r.connectEventsThread(this.eventsThread));
 };
-ConstellationSingleton.prototype.render = function(children) {
-    children = children || this.rings.map(r => r.render()) || [];
-
-    // DIV ITEMS
-    if (!(children instanceof Array))
-        children = [children];
-
-    var rtDivItems = document.createElement('div');
-    rtDivItems.classList.add('rings-items', 'rings-constellation-items');
-    children.forEach(ch => rtDivItems.appendChild(ch));
-
-    // NEW TASK BAR INPUT
-    var rtNewTaskTitleInput = document.createElement('input');
-    rtNewTaskTitleInput.type = "text";
-    rtNewTaskTitleInput.placeholder = "Nueva tarea...";
-    // NEW TASK BAR RING SELECT OPTIONS
-    var rtNewTaskRingSelectOpts = this.rings.map(r => {
-        var rt = document.createElement('option');
-        rt.value = r.id;
-        rt.textContent = r.name;
-        return rt;
-    });
-    // NEW TASK BAR RING SELECT
-    var rtNewTaskRingSelect = document.createElement('select');
-    rtNewTaskRingSelectOpts.forEach(op => rtNewTaskRingSelect.appendChild(op));
-    // NEW TASK BAR BUTTON
-    var rtNewTaskBtnAdd = document.createElement('button');
-    rtNewTaskBtnAdd.innerText = "+";
-    rtNewTaskBtnAdd.onclick = function handleAddTask() {
-        var _title = rtNewTaskTitleInput.value;
-        if (!_title)
-            return;
-        const newTask = new Task(_title);
-        var _ring = rtNewTaskRingSelect.value;
-        this.ring(_ring).addTask(newTask);
-
-        rtNewTaskTitleInput.value = "";
-        this.ring(_ring).render();
-        this.emit(config.Events.Task.created, newTask);
-        // TODO: IMPLEMENT
-        // if (!rtNewTaskTitleInput.value)
-        //     return;
-        // this.addTask(newTask);
-        // rt.getElementsByClassName('rings-ring-items')[0].innerHTML =
-        //     this.render(children).getElementsByClassName('rings-ring-items')[0].innerHTML;
-    }.bind(this);
-    // DIV NEW TASK BAR
-    var rtDivNewTaskBar = document.createElement('div');
-    rtDivNewTaskBar.classList.add('rings-constellation-bar');
-    rtDivNewTaskBar.appendChild(rtNewTaskTitleInput);
-    rtDivNewTaskBar.appendChild(rtNewTaskRingSelect);
-    rtDivNewTaskBar.appendChild(rtNewTaskBtnAdd);
-
-
-    // ROOT
-    var rt = document.createElement('div');
-    rt.classList.add('rings-constellation');
-    rt.textContent = this.toString();
-    rt.appendChild(rtDivNewTaskBar);
-    rt.appendChild(rtDivItems);
-
-    this._updateSelfNode(rt);
-    return this._getSelfNode();
-};
 ConstellationSingleton.prototype.renderView = function() {
     var c = this;
     var ret =
@@ -114,7 +50,6 @@ ConstellationSingleton.prototype.renderView = function() {
                 ])))));
     return ret;
 };
-ConstellationSingleton.prototype.toString = function() { return `The magnificent Constellation with ${this.rings.length} Rings` };
 ConstellationSingleton.prototype.ring = function(ringNameOrId) { return this.rings.find(r => r.id === ringNameOrId || r.name === ringNameOrId) };
 ConstellationSingleton.prototype.ringByTask = function(task) { return this.rings.find(r => r.tasks.findIndex(t => t.equals(task)) !== -1) };
 ConstellationSingleton.prototype.moveTaskForward = function(task) {
@@ -139,11 +74,74 @@ ConstellationSingleton.prototype.moveTaskBackward = function(task) {
     }
     return rIdx;
 };
+ConstellationSingleton.prototype.equals = function() { return false };
+ConstellationSingleton.prototype.toString = function() { return `The magnificent Constellation with ${this.rings.length} Rings` };
+ConstellationSingleton.prototype.render = function(children) {
+    children = children || this.rings.map(r => r.render()) || [];
 
-var _singleConstellation;
+    // DIV ITEMS
+    if (!(children instanceof Array))
+        children = [children];
+
+    var rtDivItems = document.createElement('div');
+    rtDivItems.classList.add('rings-items', 'rings-constellation-items');
+    children.forEach(ch => rtDivItems.appendChild(ch));
+
+    // NEW TASK BAR INPUT
+    var rtNewTaskTitleInput = document.createElement('input');
+    rtNewTaskTitleInput.type = "text";
+    rtNewTaskTitleInput.placeholder = "Nueva tarea...";
+
+    // NEW TASK BAR RING SELECT OPTIONS
+    var rtNewTaskRingSelectOpts = this.rings.map(r => {
+        var rt = document.createElement('option');
+        rt.value = r.id;
+        rt.textContent = r.name;
+        return rt;
+    });
+
+    // NEW TASK BAR RING SELECT
+    var rtNewTaskRingSelect = document.createElement('select');
+    rtNewTaskRingSelectOpts.forEach(op => rtNewTaskRingSelect.appendChild(op));
+
+    // NEW TASK BAR BUTTON
+    var rtNewTaskBtnAdd = document.createElement('button');
+    rtNewTaskBtnAdd.innerText = "+";
+    rtNewTaskBtnAdd.onclick = function handleAddTask() {
+        var _title = rtNewTaskTitleInput.value;
+        if (!_title)
+            return;
+        const newTask = new Task(_title);
+        var _ring = rtNewTaskRingSelect.value;
+        this.ring(_ring).addTask(newTask);
+
+        rtNewTaskTitleInput.value = "";
+        this.ring(_ring).render();
+        this.emit(config.Events.Task.created, newTask);
+    }.bind(this);
+
+    // DIV NEW TASK BAR
+    var rtDivNewTaskBar = document.createElement('div');
+    rtDivNewTaskBar.classList.add('rings-constellation-bar');
+    rtDivNewTaskBar.appendChild(rtNewTaskTitleInput);
+    rtDivNewTaskBar.appendChild(rtNewTaskRingSelect);
+    rtDivNewTaskBar.appendChild(rtNewTaskBtnAdd);
+
+    // ROOT
+    var rt = document.createElement('div');
+    rt.classList.add('rings-constellation');
+    rt.textContent = this.toString();
+    rt.appendChild(rtDivNewTaskBar);
+    rt.appendChild(rtDivItems);
+
+    this._updateSelfNode(rt);
+    return this._getSelfNode();
+};
+
+var _constellationInstance;
 
 export default function Constellation(r) {
-    if (!_singleConstellation)
-        _singleConstellation = new ConstellationSingleton(r);
-    return _singleConstellation;
+    if (!_constellationInstance)
+        _constellationInstance = new ConstellationSingleton(r);
+    return _constellationInstance;
 };
