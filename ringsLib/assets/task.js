@@ -50,7 +50,7 @@ Task.prototype.render = function(children = []) {
         children = [children];
 
     var rtDivItems = document.createElement('div');
-    rtDivItems.classList.add('rings-ring-items');
+    rtDivItems.classList.add('rings-task-items');
     children.forEach(ch => rtDivItems.appendChild(ch));
 
     // ROOT
