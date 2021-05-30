@@ -1,61 +1,63 @@
 import config from './config.js';
 
-export default function RingLog(r) {
-    const { defaultType } = config.RingLog;
-    this.logTime = new Date();
-    this.id = defaultType + ":" + this.logTime.getTime();
-    this.ring = { id: r.id, name: r.name };
-    return this;
-};
-RingLog.prototype._getSelfNode = function() {
-    if (!this.selfDomElement) {
-        this.selfDomElement = document.createElement('div');
-        this.selfDomElement.classList.add('rings-ringlog');
+export default class RingLog {
+    constructor(r) {
+        const { defaultType } = config.RingLog;
+        this.logTime = new Date();
+        this.id = defaultType + ":" + this.logTime.getTime();
+        this.ring = { id: r.id, name: r.name };
+        return this;
     }
-    return this.selfDomElement;
-};
-RingLog.prototype._updateSelfNode = function(newNode) {
-    var self = this._getSelfNode();
-    if (self.parentNode)
-    // If mounted replace it in the parent
-        self.parentNode.replaceChild(newNode, self);
-    this.selfDomElement = newNode;
-};
-RingLog.prototype.emit = function(eventType, payload) {
-    this.eventsThread.dispatchEvent(new CustomEvent(config.Events.dataDefault, {
-        detail: {
-            eventType,
-            payload
+    _getSelfNode() {
+        if (!this.selfDomElement) {
+            this.selfDomElement = document.createElement('div');
+            this.selfDomElement.classList.add('rings-ringlog');
         }
-    }));
-};
-RingLog.prototype.connectEventsThread = function(eventsThread) {
-    this.eventsThread = eventsThread;
-    // TODO: Remove dummy event listener
-    this.eventsThread.addEventListener(config.Events.dataDefault, function(e) {
-        console.log(`${this.toString()}: EVENT RECEIVED ${JSON.stringify(e.detail)}`);
-    }.bind(this));
-    // Propagate
-    // this.<childs>.forEach(ch => ch.connectEventsThread(this.eventsThread));
-};
-RingLog.prototype.equals = function(t) { return this.id === t.id };
-RingLog.prototype.toString = function() { return `Ring ${this.ring.name} at ${this.logTime.toISOString()}` };
-RingLog.prototype.render = function(children) {
-    children = children || [];
+        return this.selfDomElement;
+    }
+    _updateSelfNode(newNode) {
+        var self = this._getSelfNode();
+        if (self.parentNode)
+        // If mounted replace it in the parent
+            self.parentNode.replaceChild(newNode, self);
+        this.selfDomElement = newNode;
+    }
+    emit(eventType, payload) {
+        this.eventsThread.dispatchEvent(new CustomEvent(config.Events.dataDefault, {
+            detail: {
+                eventType,
+                payload
+            }
+        }));
+    }
+    connectEventsThread(eventsThread) {
+        this.eventsThread = eventsThread;
+        // TODO: Remove dummy event listener
+        this.eventsThread.addEventListener(config.Events.dataDefault, function(e) {
+            console.log(`${this.toString()}: EVENT RECEIVED ${JSON.stringify(e.detail)}`);
+        }.bind(this));
+        // Propagate
+        // this.<childs>.forEach(ch => ch.connectEventsThread(this.eventsThread));
+    }
+    equals(t) { return this.id === t.id; }
+    toString() { return `Ring ${this.ring.name} at ${this.logTime.toISOString()}`; }
+    render(children) {
+        children = children || [];
 
-    // DIV ITEMS
-    if (!(children instanceof Array))
-        children = [children];
+        // DIV ITEMS
+        if (!(children instanceof Array))
+            children = [children];
 
-    var rtDivItems = document.createElement('div');
-    rtDivItems.classList.add('rings-items', 'rings-ringlog-items');
-    children.forEach(ch => rtDivItems.appendChild(ch));
+        var rtDivItems = document.createElement('div');
+        rtDivItems.classList.add('rings-items', 'rings-ringlog-items');
+        children.forEach(ch => rtDivItems.appendChild(ch));
 
-    // ROOT
-    var rt = document.createElement('div');
-    rt.classList.add('rings-ringlog');
-    rt.textContent = this.toString();
+        // ROOT
+        var rt = document.createElement('div');
+        rt.classList.add('rings-ringlog');
+        rt.textContent = this.toString();
 
-    this._updateSelfNode(rt);
-    return this._getSelfNode();
+        this._updateSelfNode(rt);
+        return this._getSelfNode();
+    }
 };
