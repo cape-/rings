@@ -36,10 +36,9 @@ Task.prototype._getSelfNode = function() {
 Task.prototype._updateSelfNode = function(newNode) {
     var self = this._getSelfNode();
     if (self.parentNode)
-    // If mounted
+    // If mounted replace it in the parent
         self.parentNode.replaceChild(newNode, self);
-    else
-        this.selfDomElement = newNode;
+    this.selfDomElement = newNode;
 };
 Task.prototype.connectEventsThread = function(eventsThread) {
     this.eventsThread = eventsThread;

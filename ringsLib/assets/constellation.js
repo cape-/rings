@@ -26,10 +26,9 @@ ConstellationSingleton.prototype._getSelfNode = function() {
 ConstellationSingleton.prototype._updateSelfNode = function(newNode) {
     var self = this._getSelfNode();
     if (self.parentNode)
-    // If mounted
+    // If mounted replace it in the parent
         self.parentNode.replaceChild(newNode, self);
-    else
-        this.selfDomElement = newNode;
+    this.selfDomElement = newNode;
 };
 ConstellationSingleton.prototype.render = function(children) {
     children = children || this.rings.map(r => r.render()) || [];
@@ -67,7 +66,7 @@ ConstellationSingleton.prototype.render = function(children) {
 
         rtNewTaskTitleInput.value = "";
         this.ring(_ring).render();
-        // this.emit(config.Events.Task.created, newTask)
+        this.emit(config.Events.Task.created, newTask);
         // TODO: IMPLEMENT
         // if (!rtNewTaskTitleInput.value)
         //     return;
