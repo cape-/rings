@@ -10,10 +10,16 @@ var viaLactea = new Constellation([
     new Ring('year'),
     new Ring('lifetime')
 ]);
+viaLactea.ring("lifetime")
+    .addTask(new Task({ title: 'Get a plane', tags: ['Car Maintenance'] }))
+    .addTask(new Task({ title: 'Buy new stove', tags: ['Car Maintenance'] }));
+viaLactea.ring("year")
+    .addTask(new Task({ title: 'Build greenhouse', tags: ['Car Maintenance'] }))
+    .addTask(new Task({ title: 'Sell car', tags: ['Car Maintenance'] }));
 viaLactea.ring("month")
     .addTask(new Task({ title: 'Repair kitchen', tags: ['Home', 'Workshop'] }))
-    .addTask(new Task({ title: 'Take the dog to be vaccined', tags: ['Pets'] }))
-    .addTask(new Task({ title: 'Car service 30.000', tags: ['Car Maintenance'] }));
+    .addTask(new Task({ title: 'Get the dog vaccinated', tags: ['Pets'] }))
+    .addTask(new Task({ title: 'Car service at 30.000', tags: ['Car Maintenance'] }));
 viaLactea.ring("week")
     .addTask(new Task({ title: 'Buy paint for cellar', tags: ['Home', 'Workshop'], metadata: { price: 18241.50, currency: "ARS", qty: 20, um: "L", umISO: "l" } }))
     .addTask(new Task({ title: 'Repaint cellar' }))

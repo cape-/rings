@@ -7,6 +7,20 @@ export default function RingLog(r) {
     this.ring = { id: r.id, name: r.name };
     return this;
 }
+RingLog.prototype.getSelfNode = function() {
+    if (!this.htmlNode) {
+        this.htmlNode = document.createElement('div');
+        this.htmlNode.classList.add('rings-ringlog');
+    }
+    return this.htmlNode;
+}
+RingLog.prototype.updateSelfNode = function(newNode) {
+    var self = this.getSelfNode();
+    if (self.parentNode)
+        self.parentNode.replaceChild(newNode, self);
+    else
+        this.htmlNode = newNode;
+}
 RingLog.prototype.render = function(children = []) {
     var rt = document.createElement('div');
     rt.classList.add('rings-ringlog');
@@ -14,8 +28,10 @@ RingLog.prototype.render = function(children = []) {
     if (children instanceof Array)
         children.forEach(c => rt.appendChild(c));
     else
-        rt.appendChild(children)
-    return rt;
+        rt.appendChild(children);
+
+    this.updateSelfNode(rt);
+    return this.getSelfNode();
 };
 RingLog.prototype.toString = function() { return `Ring ${this.ring.name} at ${this.logTime.toISOString()}` };
 RingLog.prototype.equals = function(t) { return this.id === t.id };

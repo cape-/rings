@@ -6,6 +6,20 @@ export default function Tag(title) {
     this.title = title;
     return this;
 }
+Tag.prototype.getSelfNode = function() {
+    if (!this.htmlNode) {
+        this.htmlNode = document.createElement('div');
+        this.htmlNode.classList.add('rings-tag');
+    }
+    return this.htmlNode;
+}
+Tag.prototype.updateSelfNode = function(newNode) {
+    var self = this.getSelfNode();
+    if (self.parentNode)
+        self.parentNode.replaceChild(newNode, self);
+    else
+        this.htmlNode = newNode;
+}
 Tag.prototype.render = function(children = []) {
     var rt = document.createElement('div');
     rt.classList.add('rings-tag');
@@ -14,7 +28,9 @@ Tag.prototype.render = function(children = []) {
         children.forEach(c => rt.appendChild(c));
     else
         rt.appendChild(children)
-    return rt;
+
+    this.updateSelfNode(rt);
+    return this.getSelfNode();
 };
 Tag.prototype.toString = function() { return `Tag:${this.title}` };
 Tag.prototype.equals = function(t) { return this.id === t.id };

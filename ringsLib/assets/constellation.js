@@ -2,6 +2,20 @@ function ConstellationSingleton(r) {
     this.rings = Array.from(r);
     return this;
 };
+ConstellationSingleton.prototype.getSelfNode = function() {
+    if (!this.htmlNode) {
+        this.htmlNode = document.createElement('div');
+        this.htmlNode.classList.add('rings-constellation');
+    }
+    return this.htmlNode;
+}
+ConstellationSingleton.prototype.updateSelfNode = function(newNode) {
+    var self = this.getSelfNode();
+    if (self.parentNode)
+        self.parentNode.replaceChild(newNode, self);
+    else
+        this.htmlNode = newNode;
+}
 ConstellationSingleton.prototype.render = function(children = []) {
     var rt = document.createElement('div');
     rt.classList.add('rings-constellation');
@@ -10,7 +24,9 @@ ConstellationSingleton.prototype.render = function(children = []) {
         children.forEach(c => rt.appendChild(c));
     else
         rt.appendChild(children)
-    return rt;
+
+    this.updateSelfNode(rt);
+    return this.getSelfNode();
 };
 ConstellationSingleton.prototype.renderView = function() {
     var c = this;

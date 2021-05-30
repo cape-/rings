@@ -1,8 +1,8 @@
 import Tag from './tag.js';
 import RingLog from './ringlog.js';
 import config from './config.js';
-// import crypto from 'crypto';
-const crypto = { createHash: () => ({ update: (_h) => ({ digest: () => (_h + (new Date()).toISOString()).length }) }) }
+// import crypto from 'crypto'; // TODO: Enable this in backend
+const crypto = { createHash: () => ({ update: (_h) => ({ digest: () => (_h + (new Date()).toISOString()).length }) }) } // TODO: Disable this in backend
 
 export default function Task() {
     const { defaultType, defaultTitle, idHashAlgorithm } = config.task;
@@ -26,17 +26,41 @@ export default function Task() {
     this.done = false;
     return this;
 };
+Task.prototype.getSelfNode = function() {
+    if (!this.htmlNode) {
+        this.htmlNode = document.createElement('div');
+        this.htmlNode.classList.add('rings-task');
+    }
+    return this.htmlNode;
+}
+Task.prototype.updateSelfNode = function(newNode) {
+    var self = this.getSelfNode();
+    if (self.parentNode)
+        self.parentNode.replaceChild(newNode, self);
+    else
+        this.htmlNode = newNode;
+}
 Task.prototype.render = function(children = []) {
-    var rt = document.createElement('div');
-    rt.classList.add('rings-task');
+    // H4
     var rtH4 = document.createElement('h4');
     rtH4.textContent = this.toString();
-    rt.appendChild(rtH4)
-    if (children instanceof Array)
-        children.forEach(c => rt.appendChild(c));
-    else
-        rt.appendChild(children)
-    return rt;
+
+    // DIV ITEMS
+    if (!(children instanceof Array))
+        children = [children];
+
+    var rtDivItems = document.createElement('div');
+    rtDivItems.classList.add('rings-ring-items');
+    children.forEach(ch => rtDivItems.appendChild(ch));
+
+    // ROOT
+    var rt = document.createElement('div');
+    rt.classList.add('rings-task');
+    rt.appendChild(rtH4);
+    rt.appendChild(rtDivItems);
+
+    this.updateSelfNode(rt);
+    return this.getSelfNode();
 };
 Task.prototype.toString = function() { return `${this.title} (id:${this.id})${this.done ? ' [DONE]':''}` };
 Task.prototype.equals = function(t) { return this.id === t.id };
