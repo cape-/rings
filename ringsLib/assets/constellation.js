@@ -67,6 +67,8 @@ ConstellationSingleton.prototype.render = function(children) {
     rtNewTaskBtnAdd.innerText = "+";
     rtNewTaskBtnAdd.onclick = function handleAddTask() {
         var _title = rtNewTaskTitleInput.value;
+        if (!_title)
+            return;
         const newTask = new Task(_title);
         var _ring = rtNewTaskRingSelect.value;
         this.ring(_ring).addTask(newTask);
