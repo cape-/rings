@@ -1,4 +1,4 @@
-import config from './config.js';
+import Events from './events.js';
 import BaseClass from './BaseClass.js';
 import Task from './Task.js';
 
@@ -7,8 +7,8 @@ class ConstellationSingleton extends BaseClass {
         super();
         this.rings = Array.from(r);
         this.connectEventsThread(new EventTarget());
-        this.on(config.Events.all, function(e, f) { console.log("on() handler reached with payload: ", e, f) }); // TODO: Remove
-        this.on(config.Events.Task.created, function(e) { console.log("onTaskCreated() handler reached with payload: ", e) }); // TODO: Remove
+        this.on(Events.all, function(e, f) { console.log("on() handler reached with payload: ", e, f) }); // TODO: Remove
+        this.on(Events.Task.created, function(e) { console.log("onTaskCreated() handler reached with payload: ", e) }); // TODO: Remove
         return this;
     }
 
@@ -115,7 +115,7 @@ class ConstellationSingleton extends BaseClass {
 
             rtNewTaskTitleInput.value = "";
             this.ring(_ring).render();
-            this.emit(config.Events.Task.created, newTask);
+            this.emit(Events.Task.created, newTask);
         }.bind(this);
 
         // DIV NEW TASK BAR

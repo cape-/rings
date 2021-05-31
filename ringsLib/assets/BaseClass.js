@@ -1,4 +1,4 @@
-import config from './config.js';
+import Events from './events.js';
 
 export default class BaseClass {
     constructor() {
@@ -44,7 +44,7 @@ export default class BaseClass {
      * @param {Any} payload Payload to send
      */
     emit(eventType, payload) {
-        this.eventsThread.dispatchEvent(new CustomEvent(config.Events._baseEvent, {
+        this.eventsThread.dispatchEvent(new CustomEvent(Events._baseEvent, {
             detail: {
                 eventType,
                 payload
@@ -68,13 +68,13 @@ export default class BaseClass {
                     console.log(`${this.toString()}: EVENT RECEIVED ${JSON.stringify(e.detail)}`);
                     this._eventsHandler
                         .callbackList
-                        .filter(cb => cb.eventType === config.Events.all || cb.eventType === firedEventType)
+                        .filter(cb => cb.eventType === Events.all || cb.eventType === firedEventType)
                         .forEach(cb => cb.listener.apply(this, [firedPayload, firedEventType]));
                 },
                 callbackList: []
             };
             this.eventsThread.addEventListener(
-                config.Events._baseEvent,
+                Events._baseEvent,
                 this._eventsHandler.handler.bind(this)
             );
         }
