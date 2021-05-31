@@ -81,15 +81,6 @@ class ConstellationSingleton extends BaseClass {
         rtDivItems.classList.add('rings-items', 'rings-constellation-items');
         children.forEach(ch => rtDivItems.appendChild(ch));
 
-        // NEW TASK BAR INPUT
-        var rtNewTaskTitleInput = document.createElement('input');
-        rtNewTaskTitleInput.type = "text";
-        rtNewTaskTitleInput.placeholder = "Nueva tarea...";
-        rtNewTaskTitleInput.onkeyup = function(e) {
-            if (e.code == 'Enter')
-                rtNewTaskBtnAdd.click();
-        }
-
         // NEW TASK BAR RING SELECT OPTIONS
         var rtNewTaskRingSelectOpts = this.rings.map(r => {
             var rt = document.createElement('option');
@@ -101,6 +92,15 @@ class ConstellationSingleton extends BaseClass {
         // NEW TASK BAR RING SELECT
         var rtNewTaskRingSelect = document.createElement('select');
         rtNewTaskRingSelectOpts.forEach(op => rtNewTaskRingSelect.appendChild(op));
+
+        // NEW TASK BAR INPUT
+        var rtNewTaskTitleInput = document.createElement('input');
+        rtNewTaskTitleInput.type = "text";
+        rtNewTaskTitleInput.placeholder = "Nueva tarea...";
+        rtNewTaskTitleInput.onkeyup = function(e) {
+            if (e.code == 'Enter')
+                rtNewTaskBtnAdd.click();
+        }
 
         // NEW TASK BAR BUTTON
         var rtNewTaskBtnAdd = document.createElement('button');
@@ -121,8 +121,8 @@ class ConstellationSingleton extends BaseClass {
         // DIV NEW TASK BAR
         var rtDivNewTaskBar = document.createElement('div');
         rtDivNewTaskBar.classList.add('rings-constellation-bar');
-        rtDivNewTaskBar.appendChild(rtNewTaskTitleInput);
         rtDivNewTaskBar.appendChild(rtNewTaskRingSelect);
+        rtDivNewTaskBar.appendChild(rtNewTaskTitleInput);
         rtDivNewTaskBar.appendChild(rtNewTaskBtnAdd);
 
         // ROOT
