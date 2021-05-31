@@ -1,8 +1,7 @@
 export default {
     Task: {
         defaultType: "task",
-        defaultTitle: "<Unknown Task>",
-        idHashAlgorithm: "sha256"
+        defaultTitle: "<Unknown Task>"
     },
     Ring: {
         defaultType: "ring"
