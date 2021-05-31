@@ -15,7 +15,7 @@ a ring can:
 - (raise review events)
 
 ## ring constelation
-a      ring constelation has:
+a ring constelation has:
 - a list of rings
 a ring constelation can:
 - move tasks forth and back between rings
