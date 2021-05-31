@@ -26,17 +26,26 @@ viaLactea.ring("week")
     .addTask(new Task({ title: 'Withdraw cash from ATM' }))
     .addTask(new Task({ title: 'Meeting with new Authorities', tags: ['Social'] }));
 
-// var t1 = new Task('Comprar comida para perro');
-// var t2 = new Task({ title: 'Arreglar palo de amasar', tags: ['Taller', 'Carpintería'] });
-// t2.setDone();
-// var t3 = new Task({ title: 'Comprar sarula', tags: ['Insumos de la Casa'] });
 
-// cl('me.ring("month")', me.ring("month"));
-// cl('me.ringByTask(t2)', me.ringByTask(t2));
-// cl('========== ME I  ', JSON.parse(JSON.stringify(viaLactea)));
-// viaLactea.moveTaskForward(t1);
-// viaLactea.moveTaskBackward(t2);
-// cl('========== ME II  ', JSON.parse(JSON.stringify(viaLactea)));
+var recoveredJSONObject = {
+    id: 'asereje',
+    creationDate: 19879854133,
+    title: '12.345',
+    tags: [],
+    metadata: { foo: "bar" },
+    ringLog: [],
+    done: true
+};
+viaLactea.ring('day')
+    .addTask(Task.from(recoveredJSONObject));
+
+// var recoveredJSONObject = {
+//     id: 'anillito',
+//     name: 'El del Capitán Beto',
+//     tasks: []
+// };
+// console.log(recoveredJSONObject);
+// console.log(Ring.from(recoveredJSONObject));
 
 // UI
 var v = viaLactea // For the sake of clarity

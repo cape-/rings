@@ -5,12 +5,31 @@ export default class BaseClass {
         this.id = null;
         return this;
     }
+
+    /**
+     * Factory method to be used after JSON.parse to instantiate the class
+     * @param {Object} obj The object containing raw data
+     * @returns 
+     */
+    static from(obj) {
+        var rt = new this(obj);
+        var rtKeys = Object.keys(rt).sort();
+        var objKeys = Object.keys(obj).sort();
+        if (rtKeys.length !== objKeys.length ||
+            rtKeys.join() !== objKeys.join())
+            throw new Error('Unacceptable or incomplete object for recovery')
+
+        rtKeys.forEach(k => rt[k] = obj[k]);
+        return rt;
+    }
+
     _getSelfNode() {
         if (!this.selfDomElement) {
             this.selfDomElement = document.createElement('div');
         }
         return this.selfDomElement;
     }
+
     _updateSelfNode(newNode) {
         var self = this._getSelfNode();
         if (self.parentNode)
