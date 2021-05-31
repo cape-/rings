@@ -1,12 +1,14 @@
 import Tag from './Tag.js';
 import RingLog from './RingLog.js';
 import config from './config.js';
-// import crypto from 'crypto'; // TODO: Enable this in backend
+// import { v4 as uuidv4 } from 'uuid'; // BACKEND: Enable this
+import { v4 as uuidv4 } from 'https://jspm.dev/uuid'; // FRONTEND: Enable this
+
 const crypto = { createHash: () => ({ update: (_h) => ({ digest: () => (_h + (new Date()).toISOString()).length }) }) } // TODO: Disable this in backend
 
 export default class Task {
     constructor() {
-        const { defaultType, defaultTitle, idHashAlgorithm } = config.Task;
+        const { defaultType, defaultTitle } = config.Task;
         switch (typeof arguments[0]) {
             case 'string':
                 var title = arguments[0];
@@ -18,8 +20,9 @@ export default class Task {
                 throw Error('Title expected');
                 break;
         }
+        // this.id = defaultType + ":" + crypto.createHash(idHashAlgorithm).update(title + this.creationDate.toISOString()).digest('base64');
+        this.id = defaultType + ":" + uuidv4();
         this.creationDate = new Date();
-        this.id = defaultType + ":" + crypto.createHash(idHashAlgorithm).update(title + this.creationDate.toISOString()).digest('base64');
         this.title = (title || defaultTitle).toString();
         this.tags = Array.from(tags || []).map(t => new Tag(t));
         this.metadata = metadata;
