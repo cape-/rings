@@ -1,65 +1,25 @@
 import config from './config.js';
+import BaseClass from './BaseClass.js';
 
-export default class RingLog {
+export default class RingLog extends BaseClass {
     constructor(r) {
         const { defaultType } = config.RingLog;
+        super();
         this.logTime = new Date();
         this.id = defaultType + ":" + this.logTime.getTime();
         this.ring = { id: r.id, name: r.name };
         return this;
     }
-    _getSelfNode() {
-        if (!this.selfDomElement) {
-            this.selfDomElement = document.createElement('div');
-            this.selfDomElement.classList.add('rings-ringlog');
-        }
-        return this.selfDomElement;
-    }
-    _updateSelfNode(newNode) {
-        var self = this._getSelfNode();
-        if (self.parentNode)
-        // If mounted replace it in the parent
-            self.parentNode.replaceChild(newNode, self);
-        this.selfDomElement = newNode;
-    }
-    emit(eventType, payload) {
-        this.eventsThread.dispatchEvent(new CustomEvent(config.Events._baseEvent, {
-            detail: {
-                eventType,
-                payload
-            }
-        }));
-    }
-    on(eventType, callback) {
-        if (!this.eventsThread)
-            throw new Error('.eventsThread not connected!');
-        if (!this._eventsHandler) {
-            this._eventsHandler = {
-                handler: function(e) {
-                    var { eventType: firedEventType, payload: firedPayload } = e.detail;
-                    // TODO: Remove
-                    console.log(`${this.toString()}: EVENT RECEIVED ${JSON.stringify(e.detail)}`);
-                    this._eventsHandler
-                        .callbackList
-                        .filter(cb => cb.eventType === config.Events.all || cb.eventType === firedEventType)
-                        .forEach(cb => cb.callback.apply(this, [firedPayload, firedEventType]));
-                },
-                callbackList: []
-            };
-            this.eventsThread.addEventListener(
-                config.Events._baseEvent,
-                this._eventsHandler.handler.bind(this)
-            );
-        }
-        this._eventsHandler.callbackList.push({ eventType, callback });
-    }
-    connectEventsThread(eventsThread) {
-        this.eventsThread = eventsThread;
+
+    _propagateConnection(eventsThread) {
         // Propagate
         // this.<childs>.forEach(ch => ch.connectEventsThread(this.eventsThread));
     }
+
     equals(t) { return this.id === t.id; }
+
     toString() { return `Ring ${this.ring.name} at ${this.logTime.toISOString()}`; }
+
     render(children) {
         children = children || [];
 

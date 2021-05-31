@@ -1,74 +1,47 @@
 import config from './config.js';
+import BaseClass from './BaseClass.js';
 import Task from './Task.js';
 
-class ConstellationSingleton {
+class ConstellationSingleton extends BaseClass {
     constructor(r) {
+        super();
         this.rings = Array.from(r);
         this.connectEventsThread(new EventTarget());
         this.on(config.Events.all, function(e, f) { console.log("on() handler reached with payload: ", e, f) }); // TODO: Remove
         this.on(config.Events.Task.created, function(e) { console.log("onTaskCreated() handler reached with payload: ", e) }); // TODO: Remove
         return this;
     }
-    _getSelfNode() {
-        if (!this.selfDomElement) {
-            this.selfDomElement = document.createElement('div');
-            this.selfDomElement.classList.add('rings-constellation');
-        }
-        return this.selfDomElement;
-    }
-    _updateSelfNode(newNode) {
-        var self = this._getSelfNode();
-        if (self.parentNode)
-        // If mounted replace it in the parent
-            self.parentNode.replaceChild(newNode, self);
-        this.selfDomElement = newNode;
-    }
-    emit(eventType, payload) {
-        this.eventsThread.dispatchEvent(new CustomEvent(config.Events._baseEvent, {
-            detail: {
-                eventType,
-                payload
-            }
-        }));
-    }
-    on(eventType, callback) {
-        if (!this.eventsThread)
-            throw new Error('.eventsThread not connected!');
-        if (!this._eventsHandler) {
-            this._eventsHandler = {
-                handler: function(e) {
-                    var { eventType: firedEventType, payload: firedPayload } = e.detail;
-                    // TODO: Remove
-                    console.log(`${this.toString()}: EVENT RECEIVED ${JSON.stringify(e.detail)}`);
-                    this._eventsHandler
-                        .callbackList
-                        .filter(cb => cb.eventType === config.Events.all || cb.eventType === firedEventType)
-                        .forEach(cb => cb.callback.apply(this, [firedPayload, firedEventType]));
-                },
-                callbackList: []
-            };
-            this.eventsThread.addEventListener(
-                config.Events._baseEvent,
-                this._eventsHandler.handler.bind(this)
-            );
-        }
-        this._eventsHandler.callbackList.push({ eventType, callback });
-    }
-    connectEventsThread(eventsThread) {
-        this.eventsThread = eventsThread;
-        // Propagate
-        this.rings.forEach(r => r.connectEventsThread(this.eventsThread));
-    }
+
     renderView() {
         var c = this;
-        var ret = c.render(c.rings.map(r => r.render(r.tasks.map(t => t.render([
-            ...t.tags.map(u => u.render( /* Whatever should go inside Tags */ )),
-            ...t.ringLog.map(l => l.render( /* */ ))
-        ])))));
+        var ret =
+            c.render(c.rings.map(r =>
+                r.render(r.tasks.map(t =>
+                    t.render([
+                        ...t.tags.map(u =>
+                            u.render( /* Whatever should go inside Tags */ )
+                        ),
+                        ...t.ringLog.map(l =>
+                            l.render( /* */ )
+                        )
+                    ])
+                ))
+            ));
         return ret;
     }
-    ring(ringNameOrId) { return this.rings.find(r => r.id === ringNameOrId || r.name === ringNameOrId); }
-    ringByTask(task) { return this.rings.find(r => r.tasks.findIndex(t => t.equals(task)) !== -1); }
+
+    _propagateConnection(eventsThread) {
+        this.rings.forEach(r => r.connectEventsThread(eventsThread));
+    }
+
+    ring(ringNameOrId) {
+        return this.rings.find(r => r.id === ringNameOrId || r.name === ringNameOrId);
+    }
+
+    ringByTask(task) {
+        return this.rings.find(r => r.tasks.findIndex(t => t.equals(task)) !== -1);
+    }
+
     moveTaskForward(task) {
         var rIdx = this.rings.findIndex(r => r.tasks.findIndex(t => t.equals(task)) !== -1);
         if (rIdx >= 1) {
@@ -80,6 +53,7 @@ class ConstellationSingleton {
         }
         return rIdx;
     }
+
     moveTaskBackward(task) {
         var rIdx = this.rings.findIndex(r => r.tasks.findIndex(t => t.equals(task)) !== -1);
         if (rIdx < (this.rings.length - 1)) {
@@ -91,8 +65,11 @@ class ConstellationSingleton {
         }
         return rIdx;
     }
+
     equals() { return false; }
+
     toString() { return `The magnificent Constellation with ${this.rings.length} Rings`; }
+
     render(children) {
         children = children || this.rings.map(r => r.render()) || [];
 
