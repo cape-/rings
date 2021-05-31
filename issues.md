@@ -3,4 +3,4 @@
 - `save` method: save all tree to localStorage
 
 ## FEATURES
-- feature create task with `<Intro>` from title input
+- feature create task with `<Intro>` from title input [DONE]
