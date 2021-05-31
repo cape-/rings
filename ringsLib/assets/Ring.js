@@ -1,5 +1,5 @@
 import config from './config.js';
-import Task from './task.js';
+import Task from './Task.js';
 
 export default class Ring {
     constructor(name) {

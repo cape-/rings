@@ -1,5 +1,5 @@
-import Tag from './tag.js';
-import RingLog from './ringlog.js';
+import Tag from './Tag.js';
+import RingLog from './RingLog.js';
 import config from './config.js';
 // import crypto from 'crypto'; // TODO: Enable this in backend
 const crypto = { createHash: () => ({ update: (_h) => ({ digest: () => (_h + (new Date()).toISOString()).length }) }) } // TODO: Disable this in backend

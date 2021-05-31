@@ -1,6 +1,6 @@
-import Constellation from "./assets/constellation.js";
-import Ring from "./assets/ring.js";
-import Task from "./assets/task.js";
+import Constellation from "./assets/Constellation.js";
+import Ring from "./assets/Ring.js";
+import Task from "./assets/Task.js";
 const { log: cl } = console;
 
 var viaLactea = new Constellation([
