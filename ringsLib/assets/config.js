@@ -1,6 +1,7 @@
 export default {
     Events: {
-        dataDefault: "Rings:data",
+        all: "*",
+        _baseEvent: "Rings:data", // Alt.name: dataBaseEvent
         Task: {
             created: "Rings:data:Task.created",
             moved: "Rings:data:Task.moved",

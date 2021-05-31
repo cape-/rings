@@ -42,19 +42,38 @@ export default class Task {
         this.selfDomElement = newNode;
     }
     emit(eventType, payload) {
-        this.eventsThread.dispatchEvent(new CustomEvent(config.Events.dataDefault, {
+        this.eventsThread.dispatchEvent(new CustomEvent(config.Events._baseEvent, {
             detail: {
                 eventType,
                 payload
             }
         }));
     }
+    on(eventType, callback) {
+        if (!this.eventsThread)
+            throw new Error('.eventsThread not connected!');
+        if (!this._eventsHandler) {
+            this._eventsHandler = {
+                handler: function(e) {
+                    var { eventType: firedEventType, payload: firedPayload } = e.detail;
+                    // TODO: Remove
+                    console.log(`${this.toString()}: EVENT RECEIVED ${JSON.stringify(e.detail)}`);
+                    this._eventsHandler
+                        .callbackList
+                        .filter(cb => cb.eventType === config.Events.all || cb.eventType === firedEventType)
+                        .forEach(cb => cb.callback.apply(this, [firedPayload, firedEventType]));
+                },
+                callbackList: []
+            };
+            this.eventsThread.addEventListener(
+                config.Events._baseEvent,
+                this._eventsHandler.handler.bind(this)
+            );
+        }
+        this._eventsHandler.callbackList.push({ eventType, callback });
+    }
     connectEventsThread(eventsThread) {
             this.eventsThread = eventsThread;
-            // TODO: Remove dummy event listener
-            this.eventsThread.addEventListener(config.Events.dataDefault, function(e) {
-                console.log(`${this.toString()}: EVENT RECEIVED ${JSON.stringify(e.detail)}`);
-            }.bind(this));
             // Propagate
             this.tags.forEach(t => t.connectEventsThread(this.eventsThread));
             this.ringLog.forEach(l => l.connectEventsThread(this.eventsThread));
