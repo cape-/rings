@@ -85,6 +85,10 @@ class ConstellationSingleton extends BaseClass {
         var rtNewTaskTitleInput = document.createElement('input');
         rtNewTaskTitleInput.type = "text";
         rtNewTaskTitleInput.placeholder = "Nueva tarea...";
+        rtNewTaskTitleInput.onkeyup = function(e) {
+            if (e.code == 'Enter')
+                rtNewTaskBtnAdd.click();
+        }
 
         // NEW TASK BAR RING SELECT OPTIONS
         var rtNewTaskRingSelectOpts = this.rings.map(r => {
