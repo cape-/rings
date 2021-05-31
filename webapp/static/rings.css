@@ -1,3 +1,5 @@
+/* ---- CONSTELLATION -------------------------------- */
+
 .rings-constellation {
     margin: 0;
     padding: 0;
@@ -9,6 +11,25 @@
     font-weight: lighter;
     background: antiquewhite;
 }
+
+.rings-constellation-bar {
+    padding: 10px 0
+}
+
+.rings-constellation-bar>button,
+.rings-constellation-bar>select {
+    margin: 0 10px;
+    height: 3rem;
+}
+
+.rings-constellation-bar>input {
+    margin: 0 10px;
+    height: 3rem;
+    min-width: 50%;
+}
+
+
+/* ---- RING ----------------------------------------- */
 
 .rings-ring {
     margin: 20px;
@@ -37,6 +58,9 @@
     display: flex;
 }
 
+
+/* ---- TASK ----------------------------------------- */
+
 .rings-task {
     margin: 15px;
     padding: 0px 20px 20px 20px;
@@ -46,6 +70,9 @@
     font-size: 3rem;
     text-align: center;
 }
+
+
+/* ---- TAG ------------------------------------------ */
 
 .rings-tag {
     margin: 5px;
@@ -58,6 +85,9 @@
     font-weight: 600;
     color: white
 }
+
+
+/* ---- RINGLOG -------------------------------------- */
 
 .rings-ringlog {
     font-size: .75rem;
