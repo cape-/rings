@@ -1,0 +1,132 @@
+/* ---- CONSTELLATION -------------------------------- */
+
+.rings-constellation {
+    margin: 0;
+    padding: 2px 0;
+    text-align: center;
+    background: #F0F0F0;
+}
+
+.rings-constellation > h1{
+    font-weight: lighter;
+        font-size: 2.5rem;
+}
+
+.rings-constellation-bar {
+    padding: 10px 0
+}
+
+.rings-constellation-bar>button,
+.rings-constellation-bar>select {
+    margin: 0 10px;
+    height: 3rem;
+}
+
+.rings-constellation-bar>input {
+    margin: 0 10px;
+    height: 3rem;
+    min-width: 50%;
+}
+
+
+/* ---- RING ----------------------------------------- */
+
+.rings-ring {
+    margin: 20px 0;
+    background: lightgrey;
+    color: white;
+    font-weight: normal;
+    text-align: left;
+}
+
+.rings-ring-head {
+    width: 100%;
+    position: static;
+    padding: 10px 0 0 60px;
+}
+
+.rings-ring-items {
+    display: flex;
+    align-items: stretch;
+    overflow-x: scroll;
+    scrollbar-width: thin;
+}
+
+
+/* ---- TASK ----------------------------------------- */
+
+.rings-ring-items-container {
+    display: flex;
+}
+
+.rings-task {
+    margin: 15px;
+    padding: 0px 20px 20px 20px;
+    background: white;
+    color: gray;
+    box-shadow: 2px 4px 25px rgba(0, 0, 0, .1);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all .2s linear;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1 1;
+}
+
+.rings-task-head {
+    margin-bottom: 2rem;
+}
+
+.rings-task-head>h3 {
+    margin-bottom: 0;
+}
+
+.rings-task-head>span {
+    font-size: .6rem;
+}
+
+
+/* ---- TAG ------------------------------------------ */
+
+.rings-tag {
+    margin: 2px;
+    padding: 3px 8px;
+    border: 1px solid rebeccapurple;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 400;
+    color: rebeccapurple;
+}
+
+
+/* ---- RINGLOG -------------------------------------- */
+
+.rings-ringlog {
+    font-size: .6rem;
+    font-family: mono;
+    text-decoration: overline;
+    color: brown;
+    margin-top: 10px;
+}
+
+@media screen and (min-width: 480px) {
+    .rings-ring-item-container {
+        flex: 0 0 calc(33% - 2rem);
+    }
+}
+
+@media screen and (min-width: 600px) {
+    .rings-ring-item-container {
+        flex: 0 0 calc(25% - 2rem);
+    }
+}
+
+@media screen and (min-width: 900px) {
+    .rings-ring-item-container {
+        flex: 0 0 calc(25% - 2rem);
+        display: flex;
+    }
+}

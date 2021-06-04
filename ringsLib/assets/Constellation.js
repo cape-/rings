@@ -3,8 +3,9 @@ import BaseClass from './BaseClass.js';
 import Task from './Task.js';
 
 class ConstellationSingleton extends BaseClass {
-    constructor(r) {
+    constructor(name, r) {
         super();
+        this.name = name.toString();
         this.rings = Array.from(r);
         this.connectEventsThread(new EventTarget());
         this.on(Events.all, function(e, f) { console.log("on() handler reached with payload: ", e, f) }); // TODO: Remove
@@ -68,18 +69,17 @@ class ConstellationSingleton extends BaseClass {
 
     equals() { return false; }
 
-    toString() { return `The magnificent Constellation with ${this.rings.length} Rings`; }
+    toString() { return `The ${this.name} Constellation with ${this.rings.length} Rings`; }
 
     render(children) {
         children = children || this.rings.map(r => r.render()) || [];
 
-        // DIV ITEMS
         if (!(children instanceof Array))
             children = [children];
 
-        var rtDivItems = document.createElement('div');
-        rtDivItems.classList.add('rings-items', 'rings-constellation-items');
-        children.forEach(ch => rtDivItems.appendChild(ch));
+        // H1 TITLE
+        var rtH1Title = document.createElement('h1');
+        rtH1Title.textContent = this.toString();
 
         // NEW TASK BAR RING SELECT OPTIONS
         var rtNewTaskRingSelectOpts = this.rings.map(r => {
@@ -104,7 +104,7 @@ class ConstellationSingleton extends BaseClass {
 
         // NEW TASK BAR BUTTON
         var rtNewTaskBtnAdd = document.createElement('button');
-        rtNewTaskBtnAdd.innerText = "+";
+        rtNewTaskBtnAdd.innerText = "Add";
         rtNewTaskBtnAdd.onclick = function handleAddTask() {
             var _title = rtNewTaskTitleInput.value;
             if (!_title)
@@ -119,16 +119,21 @@ class ConstellationSingleton extends BaseClass {
         }.bind(this);
 
         // DIV NEW TASK BAR
-        var rtDivNewTaskBar = document.createElement('div');
+        var rtDivNewTaskBar = document.createElement('bar');
         rtDivNewTaskBar.classList.add('rings-constellation-bar');
         rtDivNewTaskBar.appendChild(rtNewTaskRingSelect);
         rtDivNewTaskBar.appendChild(rtNewTaskTitleInput);
         rtDivNewTaskBar.appendChild(rtNewTaskBtnAdd);
 
+        // DIV ITEMS
+        var rtDivItems = document.createElement('div');
+        rtDivItems.classList.add('rings-items', 'rings-constellation-items');
+        children.forEach(ch => rtDivItems.appendChild(ch));
+
         // ROOT
         var rt = document.createElement('div');
         rt.classList.add('rings-constellation');
-        rt.textContent = this.toString();
+        rt.appendChild(rtH1Title);
         rt.appendChild(rtDivNewTaskBar);
         rt.appendChild(rtDivItems);
 
@@ -139,8 +144,8 @@ class ConstellationSingleton extends BaseClass {
 
 var _constellationInstance;
 
-export default function Constellation(r) {
+export default function Constellation(name, r) {
     if (!_constellationInstance)
-        _constellationInstance = new ConstellationSingleton(r);
+        _constellationInstance = new ConstellationSingleton(name, r);
     return _constellationInstance;
 };

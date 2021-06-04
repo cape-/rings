@@ -65,14 +65,26 @@ export default class Task extends BaseClass {
             ...this.ringLog.map(l => l.render())
         ] || [];
 
-        // H4
-        var rtH4 = document.createElement('h4');
-        rtH4.textContent = this.toString();
-
-        // DIV ITEMS
         if (!(children instanceof Array))
             children = [children];
 
+        // H3
+        var rtH3Title = document.createElement('h3');
+        rtH3Title.textContent = this.title.length > 60 ?
+            `${this.title.substr(0,this.title.lastIndexOf(' ',60) || 60)}...` :
+            this.title;
+
+        // SPAN
+        var rtSpanSubtitle = document.createElement('span');
+        rtSpanSubtitle.textContent = this.id;
+
+        // DIV HEAD
+        var rtDivHead = document.createElement('div');
+        rtDivHead.classList.add('rings-task-head');
+        rtDivHead.appendChild(rtH3Title);
+        rtDivHead.appendChild(rtSpanSubtitle);
+
+        // DIV ITEMS
         var rtDivItems = document.createElement('div');
         rtDivItems.classList.add('rings-items', 'rings-task-items');
         children.forEach(ch => rtDivItems.appendChild(ch));
@@ -80,7 +92,7 @@ export default class Task extends BaseClass {
         // ROOT
         var rt = document.createElement('div');
         rt.classList.add('rings-task');
-        rt.appendChild(rtH4);
+        rt.appendChild(rtDivHead);
         rt.appendChild(rtDivItems);
 
         this._updateSelfNode(rt);

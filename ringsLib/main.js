@@ -3,7 +3,7 @@ import Ring from "./assets/Ring.js";
 import Task from "./assets/Task.js";
 const { log: cl } = console;
 
-var viaLactea = new Constellation([
+var viaLactea = new Constellation('Alfa Centauri', [
     new Ring('day'),
     new Ring('week'),
     new Ring('month'),

@@ -10,11 +10,13 @@ const cron = require('node-cron');
 const path = require('path');
 const fs = require('fs');
 
-(function() {
+(async function() {
     const _defaultFilename = 'crontab.json';
     const _defaultRefreshRate = '* * * * *';
 
-    const _loadJobsTab = () => JSON.parse(fs.readFileSync(path.join(__dirname, _defaultFilename)) || '');
+    // const _loadJobsTab = () => JSON.parse(fs.readFileSync(path.join(__dirname, _defaultFilename)) || '');
+
+    const _loadJobsTab = () => await import(path.join(__dirname, _defaultFilename));
 
     var _procsArr = [];
 
@@ -27,6 +29,7 @@ const fs = require('fs');
             _procsArr = jobsTab.map(job => cron.schedule(job.cronExp, () => console.log(job.cronFunc)));
         }
     };
+    i
     // Entry point
     cron.schedule(_defaultRefreshRate, refreshProcess);
     refreshProcess();

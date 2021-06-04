@@ -69,25 +69,25 @@ export default class Ring extends BaseClass {
     render(children) {
         children = children || this.tasks.map(t => t.render()) || [];
 
-        // DIV HEAD > SPAN (title)
-        var rtSpanTitle = document.createElement('span');
-        rtSpanTitle.textContent = this.toString();
-
-        // ITEM CONTAINERS
         if (!(children instanceof Array))
             children = [children];
 
+        // DIV HEAD > SPAN (title)
+        var rtH1Title = document.createElement('h1');
+        rtH1Title.textContent = this.toString();
+
+        // ITEM CONTAINERS
         var itemContainers = children.map(ch => {
             var itemContainer = document.createElement('div');
-            itemContainer.appendChild(ch);
             itemContainer.classList.add('rings-ring-item-container');
+            itemContainer.appendChild(ch);
             return itemContainer;
         });
 
         // DIV HEAD
         var rtDivHead = document.createElement('div');
         rtDivHead.classList.add('rings-ring-head');
-        rtDivHead.appendChild(rtSpanTitle);
+        rtDivHead.appendChild(rtH1Title);
 
         // DIV ITEMS
         var rtDivItems = document.createElement('div');

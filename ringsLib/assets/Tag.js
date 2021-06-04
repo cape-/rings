@@ -27,10 +27,10 @@ export default class Tag extends BaseClass {
     render(children) {
         children = children || [];
 
-        // DIV ITEMS
         if (!(children instanceof Array))
             children = [children];
 
+        // DIV ITEMS
         var rtDivItems = document.createElement('div');
         rtDivItems.classList.add('rings-items', 'rings-tag-items');
         children.forEach(ch => rtDivItems.appendChild(ch));

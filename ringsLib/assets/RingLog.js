@@ -18,15 +18,15 @@ export default class RingLog extends BaseClass {
 
     equals(t) { return this.id === t.id; }
 
-    toString() { return `Ring ${this.ring.name} at ${this.logTime.toISOString()}`; }
+    toString() { return `On Ring ${this.ring.name} since ${this.logTime.toLocaleDateString()}`; }
 
     render(children) {
         children = children || [];
 
-        // DIV ITEMS
         if (!(children instanceof Array))
             children = [children];
 
+        // DIV ITEMS
         var rtDivItems = document.createElement('div');
         rtDivItems.classList.add('rings-items', 'rings-ringlog-items');
         children.forEach(ch => rtDivItems.appendChild(ch));
