@@ -2,6 +2,7 @@ import Tag from './Tag.js';
 import RingLog from './RingLog.js';
 import config from './config.js';
 import BaseClass from './BaseClass.js';
+import { limitText } from './utils.js';
 // import { v4 as uuidv4 } from 'uuid'; // BACKEND: Enable this
 import { v4 as uuidv4 } from 'https://jspm.dev/uuid'; // FRONTEND: Enable this
 
@@ -70,9 +71,7 @@ export default class Task extends BaseClass {
 
         // H3
         var rtH3Title = document.createElement('h3');
-        rtH3Title.textContent = this.title.length > 60 ?
-            `${this.title.substr(0,this.title.lastIndexOf(' ',60) || 60)}...` :
-            this.title;
+        rtH3Title.textContent = limitText(this.title, 60);
 
         // SPAN
         var rtSpanSubtitle = document.createElement('span');
