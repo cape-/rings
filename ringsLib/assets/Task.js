@@ -2,9 +2,7 @@ import Tag from './Tag.js';
 import RingLog from './RingLog.js';
 import config from './config.js';
 import BaseClass from './BaseClass.js';
-import { limitText } from './utils.js';
-// import { v4 as uuidv4 } from 'uuid'; // BACKEND: Enable this
-import { v4 as uuidv4 } from 'https://jspm.dev/uuid'; // FRONTEND: Enable this
+import { limitText, uidGenerator } from './utils.js';
 
 const crypto = { createHash: () => ({ update: (_h) => ({ digest: () => (_h + (new Date()).toISOString()).length }) }) } // TODO: Disable this in backend
 
@@ -23,10 +21,12 @@ export default class Task extends BaseClass {
                 break;
         }
         super();
-        // this.id = defaultType + ":" + crypto.createHash(idHashAlgorithm).update(title + this.creationDate.toISOString()).digest('base64');
-        this.id = defaultType + ":" + uuidv4();
         this.creationDate = new Date();
         this.title = (title || defaultTitle).toString();
+        // TODO: HASH OPTION
+        // this.id = defaultType + ":" + hashGenerator(this.title, this.creationDate.toISOString())
+        // UID OPTION
+        this.id = defaultType + ":" + uidGenerator(config.Task.uidLength);
         this.tags = Array.from(tags || []).map(t => new Tag(t));
         this.metadata = metadata;
         this.ringLog = [];

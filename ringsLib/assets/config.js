@@ -1,7 +1,8 @@
 export default {
     Task: {
         defaultType: "task",
-        defaultTitle: "<Unknown Task>"
+        defaultTitle: "<Unknown Task>",
+        uidLength: 8
     },
     Ring: {
         defaultType: "ring"
