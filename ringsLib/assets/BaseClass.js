@@ -24,10 +24,10 @@ export default class BaseClass {
     }
 
     _getSelfNode() {
-        if (!this.selfDomElement) {
-            this.selfDomElement = document.createElement('div');
+        if (!this._selfDomElement) {
+            this._selfDomElement = document.createElement('div');
         }
-        return this.selfDomElement;
+        return this._selfDomElement;
     }
 
     _updateSelfNode(newNode) {
@@ -35,7 +35,7 @@ export default class BaseClass {
         if (self.parentNode)
         // If mounted replace it in the parent
             self.parentNode.replaceChild(newNode, self);
-        this.selfDomElement = newNode;
+        this._selfDomElement = newNode;
     }
 
     /**
@@ -44,7 +44,7 @@ export default class BaseClass {
      * @param {Any} payload Payload to send
      */
     emit(eventType, payload) {
-        this.eventsThread.dispatchEvent(new CustomEvent(Events._baseEvent, {
+        this._eventsThread.dispatchEvent(new CustomEvent(Events._baseEvent, {
             detail: {
                 eventType,
                 payload
@@ -58,8 +58,8 @@ export default class BaseClass {
      * @param {CallbackFunction} listener  
      */
     on(eventType, listener) {
-        if (!this.eventsThread)
-            throw new Error('.eventsThread not connected!');
+        if (!this._eventsThread)
+            throw new Error('._eventsThread not connected!');
         if (!this._eventsHandler) {
             this._eventsHandler = {
                 handler: function(e) {
@@ -73,7 +73,7 @@ export default class BaseClass {
                 },
                 callbackList: []
             };
-            this.eventsThread.addEventListener(
+            this._eventsThread.addEventListener(
                 Events._baseEvent,
                 this._eventsHandler.handler.bind(this)
             );
@@ -81,14 +81,20 @@ export default class BaseClass {
         this._eventsHandler.callbackList.push({ eventType, listener });
     }
 
+    toJSON() {
+        var _tmp = {...this };
+        Object.keys(_tmp).filter(k => k[0] === '_').forEach(k => delete _tmp[k]);
+        return _tmp
+    }
+
     /**
      * Connects the instance to the eventsThread 
      * @param {EventsThread} eventsThread 
      */
     connectEventsThread(eventsThread) {
-        this.eventsThread = eventsThread;
+        this._eventsThread = eventsThread;
         // Propagate
-        this._propagateConnection(this.eventsThread);
+        this._propagateConnection(this._eventsThread);
     }
 
     // equals(t) { return this.id === t.id; }
