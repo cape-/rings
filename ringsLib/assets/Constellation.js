@@ -144,8 +144,10 @@ class ConstellationSingleton extends BaseClass {
 
 var _constellationInstance;
 
-export default function Constellation(name, r) {
-    if (!_constellationInstance)
-        _constellationInstance = new ConstellationSingleton(name, r);
-    return _constellationInstance;
+export default class Constellation {
+    constructor(name, r) {
+        if (!_constellationInstance)
+            _constellationInstance = new ConstellationSingleton(name, r);
+        return _constellationInstance;
+    }
 };
