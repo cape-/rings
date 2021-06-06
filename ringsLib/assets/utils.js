@@ -21,8 +21,10 @@ export const limitText = (t, l) => (l = l - 3) && t.length > l ? `${t.substr(0,t
  * @param {Int} uidlen UID Length in characters
  * @returns Generated UID
  */
-export const uidGenerator = function(n = 6) {
-    return Array.from(Array(n).keys()).reduce(a => a + ("0" + ((Math.random() * 36) | 0).toString(36)).slice(-1), '');
+export const uidGenerator = function(n = 6, date) {
+    return (date || new Date()).valueOf().toString(36) +
+        '-' +
+        Array.from(Array(n).keys()).reduce(a => a + ("0" + ((Math.random() * 36) | 0).toString(36)).slice(-1), '');
 }
 
 /* function _collisionTest(maxN = 35000, generator) {
