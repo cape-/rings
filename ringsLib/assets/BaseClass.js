@@ -17,9 +17,12 @@ export default class BaseClass {
         var objKeys = Object.keys(obj).sort();
         if (rtKeys.length !== objKeys.length ||
             rtKeys.join() !== objKeys.join())
-            throw new Error('Unacceptable or incomplete object for recovery')
+            throw new Error('Unacceptable or incomplete object for recovery' +
+                '. Expected keys: ' +
+                rtKeys.join() +
+                '. Received keys: ' +
+                objKeys.join());
 
-        rtKeys.forEach(k => rt[k] = obj[k]);
         return rt;
     }
 
