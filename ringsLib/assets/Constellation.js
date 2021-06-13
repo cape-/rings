@@ -24,6 +24,9 @@ export default class Constellation extends BaseClass {
         return JSON.parse(str, (key, val) => {
             if (val && val.id)
                 switch (val.id.split(":")[0]) {
+                    case config.Constellation.defaultType:
+                        return Constellation.from(val);
+
                     case config.Ring.defaultType:
                         return Ring.from(val);
 
