@@ -27,18 +27,18 @@ export const uidGenerator = function(n = 6, date) {
         Array.from(Array(n).keys()).reduce(a => a + ("0" + ((Math.random() * 36) | 0).toString(36)).slice(-1), '');
 }
 
-/* function _collisionTest(maxN = 35000, generator) {
-    var startNow = performance.now(),
-        newhash = generator(),
-        arr = [],
-        i = 0,
-        found;
-    do {
-        arr.push(newhash);
-        newhash = generator();
-        found = arr.indexOf(newhash) !== -1;
-    } while (!found && ++i !== maxN)
+// function _collisionTest(maxN = 35000, generator) {
+//     var startNow = performance.now(),
+//         newhash = generator(),
+//         arr = [],
+//         i = 0,
+//         found;
+//     do {
+//         arr.push(newhash);
+//         newhash = generator();
+//         found = arr.indexOf(newhash) !== -1;
+//     } while (!found && ++i !== maxN)
 
-    console.log(`Tested ${i} cases ${ found ? 'Duplicated FOUND!' : 'Did not found duplicated'}. Took ${(performance.now()-startNow)/1000} s.`)
-}
-_collisionTest(300000, hashGenerator); */
+//     console.log(`Tested ${i} cases ${ found ? 'Duplicated FOUND!' : 'Did not found duplicated'}. Took ${(performance.now()-startNow)/1000} s.`)
+// }
+// _collisionTest(300000, hashGenerator);

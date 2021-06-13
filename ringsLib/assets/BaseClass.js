@@ -67,8 +67,6 @@ export default class BaseClass {
             this._eventsHandler = {
                 handler: function(e) {
                     var { eventType: firedEventType, payload: firedPayload } = e.detail;
-                    // TODO: Remove
-                    console.log(`${this.toString()}: EVENT RECEIVED ${JSON.stringify(e.detail)}`);
                     this._eventsHandler
                         .callbackList
                         .filter(cb => cb.eventType === Events.all || cb.eventType === firedEventType)
