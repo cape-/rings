@@ -7,29 +7,29 @@ import { limitText, uidGenerator } from './utils.js';
 const crypto = { createHash: () => ({ update: (_h) => ({ digest: () => (_h + (new Date()).toISOString()).length }) }) } // TODO: Disable this in backend
 
 export default class Task extends BaseClass {
-    constructor() {
+    constructor(arg) {
+        super();
         const { defaultType, defaultTitle } = config.Task;
-        switch (typeof arguments[0]) {
+        switch (typeof arg) {
             case 'string':
-                var title = arguments[0];
+                var title = arg;
                 break;
             case 'object':
-                var { title, tags, metadata } = arguments[0];
+                var { id, title, metadata, tags, ringLog, creationDate } = arg;
                 break;
             default:
                 throw Error('Title expected');
                 break;
         }
-        super();
-        this.creationDate = new Date();
+        this.creationDate = creationDate || new Date();
         this.title = (title || defaultTitle).toString();
         // TODO: HASH OPTION
         // this.id = defaultType + ":" + hashGenerator(this.title, this.creationDate.toISOString())
         // UID OPTION
-        this.id = defaultType + ":" + uidGenerator(config.Task.uidLength);
+        this.id = id || defaultType + ":" + uidGenerator(config.Task.uidLength, this.creationDate);
         this.tags = Array.from(tags || []).map(t => new Tag(t));
-        this.metadata = metadata;
-        this.ringLog = [];
+        this.metadata = metadata || {};
+        this.ringLog = Array.from(ringLog || []).map(l => new RingLog(l));
         this.done = false;
         return this;
     }

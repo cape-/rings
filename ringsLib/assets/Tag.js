@@ -2,9 +2,13 @@ import config from './config.js';
 import BaseClass from './BaseClass.js';
 
 export default class Tag extends BaseClass {
-    constructor(title) {
-        const { defaultType } = config.Tag;
+    constructor(arg) {
         super();
+        const { defaultType } = config.Tag;
+        const title = typeof arg === "string" ? arg : arg.title;
+        if (!title)
+            throw new Error("Title expected by constructor")
+
         this.id = defaultType + ":" +
             title
             .toLowerCase()

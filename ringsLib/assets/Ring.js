@@ -3,12 +3,16 @@ import BaseClass from './BaseClass.js';
 import Task from './Task.js';
 
 export default class Ring extends BaseClass {
-    constructor(name) {
-        const { defaultType } = config.Ring;
+    constructor(arg) {
         super();
+        const { defaultType } = config.Ring;
+        const name = typeof arg === "string" ? arg : arg.name;
+        if (!name)
+            throw new Error("Name expected by constructor")
+
         this.id = defaultType + ":" + name;
         this.name = name;
-        this.tasks = [];
+        this.tasks = arg.tasks || [];
         return this;
     }
 

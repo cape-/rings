@@ -1,12 +1,17 @@
 import Events from './events.js';
+import config from './config.js';
+
 import BaseClass from './BaseClass.js';
+import Ring from './Ring.js';
 import Task from './Task.js';
+import Tag from './Tag.js';
+import RingLog from './RingLog.js';
 
 class ConstellationSingleton extends BaseClass {
-    constructor(name, r) {
+    constructor({ name, rings }) {
         super();
         this.name = name.toString();
-        this.rings = Array.from(r);
+        this.rings = Array.from(rings);
         this.connectEventsThread(new EventTarget());
         this.on(Events.all, function(e, f) { console.log("on() handler reached with payload: ", e, f) }); // TODO: Remove
         this.on(Events.Task.created, function(e) { console.log("onTaskCreated() handler reached with payload: ", e) }); // TODO: Remove

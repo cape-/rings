@@ -2,12 +2,16 @@ import config from './config.js';
 import BaseClass from './BaseClass.js';
 
 export default class RingLog extends BaseClass {
-    constructor(r) {
-        const { defaultType } = config.RingLog;
+    constructor(arg) {
         super();
+        const { defaultType } = config.RingLog;
+        const ring = typeof arg !== "object" ? null : arg.ringId ? arg : arg.ring;
+        if (!ring)
+            throw new Error("Title expected by constructor")
+
         this.logTime = new Date();
         this.id = defaultType + ":" + this.logTime.getTime();
-        this.ring = { id: r.id, name: r.name };
+        this.ring = { ringId: ring.ringId, name: ring.name };
         return this;
     }
 
