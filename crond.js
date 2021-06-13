@@ -13,7 +13,7 @@ const path = require('path');
 (function() {
     "use strict";
 
-    const _printHelp = () => console.log(`Usage: crond.js [options] [ cronTabFile.js ]
+    const _printHelp = () => process.stdout.write(`Usage: crond.js [options] [ cronTabFile.js ]
 
 Options:
 
@@ -23,7 +23,7 @@ Options:
                                             Default '1m'. 
   --help                                    Prints this help
     
-  Note: Run as \`crond.js myCronTab.js\` or \`crond.js --tab-file myCronTab.js\` have the same effect`);
+  Note: Run as \`crond.js myCronTab.js\` or \`crond.js --tab-file myCronTab.js\` have the same effect\n`);
 
     const _loadJobsTab = () => require(path.join(__dirname, _tabFile));
 
@@ -50,7 +50,7 @@ Options:
 
     const _refreshProcess = () => {
         var jobsTab = _loadJobsTab() || [];
-        console.log(`${(new Date()).toLocaleString()} TAB LOADED: ${jobsTab.length} JOBS`);
+        process.stdout.write(`${(new Date()).toLocaleString()} CRON TAB LOADED: ${jobsTab.length} JOBS\n`);
         if (jobsTab.length) {
             _procsArr.forEach(p => p.stop());
             _procsArr = jobsTab.map(job => cron.schedule(job.cronExp, job.cronFunc.bind(this, (new Date()))));
