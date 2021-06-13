@@ -57,24 +57,34 @@ export default class Constellation extends BaseClass {
     moveTaskForward(task) {
         var rIdx = this.rings.findIndex(r => r.tasks.findIndex(t => t.equals(task)) !== -1);
         if (rIdx >= 1) {
-            this.rings[rIdx].removeTask(t => t.equals(task));
-            this.rings[rIdx - 1].addTask(task);
+            // Remove it from Ring N and add it to Ring (N-1)
+            var removedTask = this.rings[rIdx].removeTask(t => t.equals(task));
+            if (removedTask !== -1) {
+                this.rings[rIdx - 1].addTask(removedTask);
                 return this.rings[rIdx - 1];
+            }
         } else if (rIdx === 0) {
+            // If it is already in the first ring, leave it there
             return this.rings[rIdx];
         }
+        // Not found?
         return rIdx;
     }
 
     moveTaskBackward(task) {
         var rIdx = this.rings.findIndex(r => r.tasks.findIndex(t => t.equals(task)) !== -1);
-        if (rIdx < (this.rings.length - 1)) {
-            this.rings[rIdx].removeTask(t => t.equals(task));
-            this.rings[rIdx + 1].addTask(task);
+        if (rIdx >= 0 && rIdx < (this.rings.length - 1)) {
+            // Remove it from Ring N and add it to Ring (N+1)
+            var removedTask = this.rings[rIdx].removeTask(t => t.equals(task));
+            if (removedTask !== -1) {
+                this.rings[rIdx + 1].addTask(removedTask);
                 return this.rings[rIdx + 1];
-        } else if (rIdx === 0) {
+            }
+        } else if (rIdx === (this.rings.length - 1)) {
+            // If it is in the last ring, leave it there
             return this.rings[rIdx];
         }
+        // Not found?
         return rIdx;
     }
 
