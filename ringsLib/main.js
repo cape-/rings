@@ -3,13 +3,16 @@ import Ring from "./assets/Ring.js";
 import Task from "./assets/Task.js";
 const { log: cl } = console;
 
-var viaLactea = new Constellation('Alfa Centauri', [
-    new Ring('day'),
-    new Ring('week'),
-    new Ring('month'),
-    new Ring('year'),
-    new Ring('lifetime')
-]);
+var viaLactea = new Constellation({
+    name: 'Alfa Centauri',
+    rings: [
+        new Ring('day'),
+        new Ring('week'),
+        new Ring('month'),
+        new Ring('year'),
+        new Ring('lifetime')
+    ]
+});
 viaLactea.ring("lifetime")
     .addTask(new Task({ title: 'Get a plane', tags: ['Car Maintenance'] }))
     .addTask(new Task({ title: 'Buy new stove', tags: ['Car Maintenance'] }));
