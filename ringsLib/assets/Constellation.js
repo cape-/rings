@@ -93,6 +93,18 @@ export default class Constellation extends BaseClass {
         return rIdx;
     }
 
+    save() { // Could be perfectly extracted to BaseClass. Does it help somehow?
+        console.log("save()d");
+        localStorage.setItem(config.App.defaultStorageItem, JSON.stringify(this));
+    }
+
+    static load() {
+        var storedConstellationJson = localStorage.getItem(config.App.defaultStorageItem);
+        if (storedConstellationJson)
+            return Constellation.fromJSON(storedConstellationJson);
+        return null;
+    }
+
     equals() { return false; }
 
     toString() { return `The ${this.name} Constellation with ${this.rings.length} Rings`; }
