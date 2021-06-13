@@ -15,7 +15,10 @@ export default class Constellation extends BaseClass {
         this.name = name.toString();
         this.rings = Array.from(rings);
         this.connectEventsThread(new EventTarget());
-        this.on(Events.all, function(e, f) { console.log("on() handler reached with payload: ", e, f) }); // TODO: Remove
+        this.on(Events.all, function(e, f) {
+            // console.log("on() handler reached with payload: ", e, f);
+            this.save()
+        });
         this.on(Events.Task.created, function(e) { console.log("onTaskCreated() handler reached with payload: ", e) }); // TODO: Remove
         return this;
     }
