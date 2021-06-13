@@ -99,7 +99,9 @@ export default class BaseClass {
     toJSON() {
         // For storage: remove runtime properties (_*)
         var _tmp = {...this };
-        Object.keys(_tmp).filter(k => k[0] === '_').forEach(k => delete _tmp[k]);
+        Object.keys(_tmp)
+            .filter(k => k[0] === '_')
+            .forEach(k => delete _tmp[k]);
         return _tmp
     }
 
