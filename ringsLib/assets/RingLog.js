@@ -15,10 +15,10 @@ export default class RingLog extends BaseClass {
         return this;
     }
 
-    _propagateConnection(eventsThread) {
-        // Propagate
-        // this.<childs>.forEach(ch => ch.connectEventsThread(this._eventsThread));
-    }
+    // _propagateConnection(eventsThread) {
+    //     // Propagate
+    //     // this.<childs>.forEach(ch => ch.connectEventsThread(this._eventsThread));
+    // }
 
     equals(t) { return this.id === t.id; }
 

@@ -110,6 +110,8 @@ export default class BaseClass {
     connectEventsThread(eventsThread) {
         this._eventsThread = eventsThread;
         // Propagate
+        if (this._propagateConnection &&
+            typeof this._propagateConnection === "function")
             this._propagateConnection(this._eventsThread);
     }
 
