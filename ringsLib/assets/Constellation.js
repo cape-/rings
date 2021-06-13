@@ -74,6 +74,31 @@ class ConstellationSingleton extends BaseClass {
 
     equals() { return false; }
 
+    static fromJSON(str) {
+        return JSON.parse(str, (key, val) => {
+            // console.log(`JSON REVIVER key ${key} val`, val);
+            if (val && val.id)
+                switch (val.id.split(":")[0]) {
+                    case config.Ring.defaultType:
+                        return Ring.from(val);
+
+                    case config.Task.defaultType:
+                        return Task.from(val);
+
+                    case config.Tag.defaultType:
+                        return Tag.from(val);
+
+                    case config.RingLog.defaultType:
+                        return RingLog.from(val);
+
+                    default:
+                        throw new Error(`in Reviver: detected unexpected object in JSON: ${JSON.stringify(val)}`);
+                }
+            else
+                return val;
+        })
+    }
+
     toString() { return `The ${this.name} Constellation with ${this.rings.length} Rings`; }
 
     render(children) {
