@@ -39,6 +39,6 @@ export const uidGenerator = function(n = 6, date) {
 //         found = arr.indexOf(newhash) !== -1;
 //     } while (!found && ++i !== maxN)
 
-//     console.log(`Tested ${i} cases ${ found ? 'Duplicated FOUND!' : 'Did not found duplicated'}. Took ${(performance.now()-startNow)/1000} s.`)
+//     process.stdout.write(`Tested ${i} cases ${ found ? 'Duplicated FOUND!' : 'Did not found duplicated'}. Took ${(performance.now()-startNow)/1000} s.\n`)
 // }
 // _collisionTest(300000, hashGenerator);

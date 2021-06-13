@@ -4,8 +4,6 @@ import config from './config.js';
 import BaseClass from './BaseClass.js';
 import { limitText, uidGenerator } from './utils.js';
 
-const crypto = { createHash: () => ({ update: (_h) => ({ digest: () => (_h + (new Date()).toISOString()).length }) }) } // TODO: Disable this in backend
-
 export default class Task extends BaseClass {
     constructor(arg) {
         super();
@@ -23,7 +21,7 @@ export default class Task extends BaseClass {
         }
         this.creationDate = creationDate || new Date();
         this.title = (title || defaultTitle).toString();
-        // TODO: HASH OPTION
+        // TODO: Review HASH OPTION in Task.id
         // this.id = defaultType + ":" + hashGenerator(this.title, this.creationDate.toISOString())
         // UID OPTION
         this.id = id || defaultType + ":" + uidGenerator(config.Task.uidLength, this.creationDate);

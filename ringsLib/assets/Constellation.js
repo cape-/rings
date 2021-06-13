@@ -16,10 +16,10 @@ export default class Constellation extends BaseClass {
         this.rings = Array.from(rings);
         this.connectEventsThread(new EventTarget());
         this.on(Events.all, function(e, f) {
-            // console.log("on() handler reached with payload: ", e, f);
+            // console.log("on() handler reached with payload: ", e, f); // TODO: Remove usage example
             this.save()
         });
-        this.on(Events.Task.created, function(e) { console.log("onTaskCreated() handler reached with payload: ", e) }); // TODO: Remove
+        // this.on(Events.Task.created, function(e) { console.log("onTaskCreated() handler reached with payload: ", e) }); // TODO: Remove usage example
         return this;
     }
 
@@ -97,7 +97,6 @@ export default class Constellation extends BaseClass {
     }
 
     save() { // Could be perfectly extracted to BaseClass. Does it help somehow?
-        console.log("save()d");
         localStorage.setItem(config.App.defaultStorageItem, JSON.stringify(this));
     }
 

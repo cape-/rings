@@ -46,7 +46,7 @@ export default class Ring extends BaseClass {
     addTask(t) {
         if (!t instanceof Task)
             throw TypeError("Task expected.");
-        // TODO: Define
+        // TODO: Define if Tasks.done can be added to Ring
         // if (t.done)
         //     throw TypeError("Done task not expected.");
         this.tasks.push(t);
