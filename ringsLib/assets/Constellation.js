@@ -7,7 +7,7 @@ import Task from './Task.js';
 import Tag from './Tag.js';
 import RingLog from './RingLog.js';
 
-class ConstellationSingleton extends BaseClass {
+export default class Constellation extends BaseClass {
     constructor({ name, rings }) {
         super();
         this.name = name.toString();
@@ -20,7 +20,6 @@ class ConstellationSingleton extends BaseClass {
 
     static fromJSON(str) {
         return JSON.parse(str, (key, val) => {
-            // console.log(`JSON REVIVER key ${key} val`, val);
             if (val && val.id)
                 switch (val.id.split(":")[0]) {
                     case config.Ring.defaultType:
@@ -43,24 +42,6 @@ class ConstellationSingleton extends BaseClass {
         })
     }
 
-    renderView() {
-        var c = this;
-        var ret =
-            c.render(c.rings.map(r =>
-                r.render(r.tasks.map(t =>
-                    t.render([
-                        ...t.tags.map(u =>
-                            u.render( /* Whatever should go inside Tags */ )
-                        ),
-                        ...t.ringLog.map(l =>
-                            l.render( /* */ )
-                        )
-                    ])
-                ))
-            ));
-        return ret;
-    }
-
     _propagateConnection(eventsThread) {
         this.rings.forEach(r => r.connectEventsThread(eventsThread));
     }
@@ -78,7 +59,7 @@ class ConstellationSingleton extends BaseClass {
         if (rIdx >= 1) {
             this.rings[rIdx].removeTask(t => t.equals(task));
             this.rings[rIdx - 1].addTask(task);
-            return this.rings[rIdx - 1];
+                return this.rings[rIdx - 1];
         } else if (rIdx === 0) {
             return this.rings[rIdx];
         }
@@ -90,7 +71,7 @@ class ConstellationSingleton extends BaseClass {
         if (rIdx < (this.rings.length - 1)) {
             this.rings[rIdx].removeTask(t => t.equals(task));
             this.rings[rIdx + 1].addTask(task);
-            return this.rings[rIdx + 1];
+                return this.rings[rIdx + 1];
         } else if (rIdx === 0) {
             return this.rings[rIdx];
         }
@@ -111,50 +92,6 @@ class ConstellationSingleton extends BaseClass {
         var rtH1Title = document.createElement('h1');
         rtH1Title.textContent = this.toString();
 
-        // NEW TASK BAR RING SELECT OPTIONS
-        var rtNewTaskRingSelectOpts = this.rings.map(r => {
-            var rt = document.createElement('option');
-            rt.value = r.id;
-            rt.textContent = r.name;
-            return rt;
-        });
-
-        // NEW TASK BAR RING SELECT
-        var rtNewTaskRingSelect = document.createElement('select');
-        rtNewTaskRingSelectOpts.forEach(op => rtNewTaskRingSelect.appendChild(op));
-
-        // NEW TASK BAR INPUT
-        var rtNewTaskTitleInput = document.createElement('input');
-        rtNewTaskTitleInput.type = "text";
-        rtNewTaskTitleInput.placeholder = "Nueva tarea...";
-        rtNewTaskTitleInput.onkeyup = function(e) {
-            if (e.code == 'Enter')
-                rtNewTaskBtnAdd.click();
-        }
-
-        // NEW TASK BAR BUTTON
-        var rtNewTaskBtnAdd = document.createElement('button');
-        rtNewTaskBtnAdd.innerText = "Add";
-        rtNewTaskBtnAdd.onclick = function handleAddTask() {
-            var _title = rtNewTaskTitleInput.value;
-            if (!_title)
-                return;
-            const newTask = new Task(_title);
-            var _ring = rtNewTaskRingSelect.value;
-            this.ring(_ring).addTask(newTask);
-
-            rtNewTaskTitleInput.value = "";
-            this.ring(_ring).render();
-            this.emit(Events.Task.created, newTask);
-        }.bind(this);
-
-        // DIV NEW TASK BAR
-        var rtDivNewTaskBar = document.createElement('bar');
-        rtDivNewTaskBar.classList.add('rings-constellation-bar');
-        rtDivNewTaskBar.appendChild(rtNewTaskRingSelect);
-        rtDivNewTaskBar.appendChild(rtNewTaskTitleInput);
-        rtDivNewTaskBar.appendChild(rtNewTaskBtnAdd);
-
         // DIV ITEMS
         var rtDivItems = document.createElement('div');
         rtDivItems.classList.add('rings-items', 'rings-constellation-items');
@@ -164,20 +101,9 @@ class ConstellationSingleton extends BaseClass {
         var rt = document.createElement('div');
         rt.classList.add('rings-constellation');
         rt.appendChild(rtH1Title);
-        rt.appendChild(rtDivNewTaskBar);
         rt.appendChild(rtDivItems);
 
         this._updateSelfNode(rt);
         return this._getSelfNode();
-    }
-};
-
-var _constellationInstance;
-
-export default class Constellation {
-    constructor(name, r) {
-        if (!_constellationInstance)
-            _constellationInstance = new ConstellationSingleton(name, r);
-        return _constellationInstance;
     }
 };
