@@ -1,6 +1,9 @@
 import Events from './events.js';
 
 export default class BaseClass {
+    /**
+     * @constructor BaseClass
+     */
     constructor() {
         this.id = null;
         return this;
@@ -26,6 +29,9 @@ export default class BaseClass {
         return rt;
     }
 
+    /**
+     * @returns The DOM element corresponding to `this` object
+     */
     _getSelfNode() {
         if (!this._selfDomElement) {
             this._selfDomElement = document.createElement('div');
@@ -33,6 +39,10 @@ export default class BaseClass {
         return this._selfDomElement;
     }
 
+    /**
+     * Updates the DOM element to which `this` object points to
+     * @param {*} newNode The new DOM element
+     */
     _updateSelfNode(newNode) {
         var self = this._getSelfNode();
         if (self.parentNode)
@@ -82,7 +92,12 @@ export default class BaseClass {
         this._eventsHandler.callbackList.push({ eventType, listener });
     }
 
+    /**
+     * JSON.stringify hook implementation
+     * @returns object to JSON-stringify
+     */
     toJSON() {
+        // For storage: remove runtime properties (_*)
         var _tmp = {...this };
         Object.keys(_tmp).filter(k => k[0] === '_').forEach(k => delete _tmp[k]);
         return _tmp
@@ -95,7 +110,7 @@ export default class BaseClass {
     connectEventsThread(eventsThread) {
         this._eventsThread = eventsThread;
         // Propagate
-        this._propagateConnection(this._eventsThread);
+            this._propagateConnection(this._eventsThread);
     }
 
     // equals(t) { return this.id === t.id; }
