@@ -106,10 +106,11 @@
 
 .rings-ringlog {
     font-size: .6rem;
-    font-family: mono;
-    text-decoration: overline;
     color: brown;
-    margin-top: 10px;
+    text-align: center;
+    margin-top: -1px;
+    border-bottom: solid 1px;
+    border-top: solid 1px;
 }
 
 @media screen and (min-width: 480px) {
