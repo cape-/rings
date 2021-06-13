@@ -54,7 +54,7 @@ export default class Task extends BaseClass {
     }
 
     logRing(r) {
-        this.ringLog.push(new RingLog(r));
+        this.ringLog.push(new RingLog({ ringId: r.id, name: r.name }));
     }
 
     equals(t) { return this.id === t.id; }
