@@ -1,10 +1,11 @@
 {
     "name": "rings-base",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "description": "Rings base library",
     "main": "main.js",
     "scripts": {
-        "start": "npx nodemon ringsd.js",
+        "start": "npx nodemon ringsd.js -w ringsd.js",
+        "start-app": "npx nodemon ringsd.js -w ringsd.js & (trap \"killall -9 node;\" EXIT; node crond.js)",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "keywords": [
