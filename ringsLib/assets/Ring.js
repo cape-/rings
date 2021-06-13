@@ -62,8 +62,8 @@ export default class Ring extends BaseClass {
     removeTask(cb) {
         const tIdx = this.tasks.findIndex(cb);
         if (tIdx !== -1)
-            this.tasks.splice(tIdx, 1);
-        return this;
+            return this.tasks.splice(tIdx, 1)[0];
+        return tIdx;
     }
 
     equals(r) { return this.id === r.id; }
