@@ -10,6 +10,8 @@ import RingLog from './RingLog.js';
 export default class Constellation extends BaseClass {
     constructor({ name, rings }) {
         super();
+        const { defaultType } = config.Constellation;
+        this.id = defaultType + ":" + name;
         this.name = name.toString();
         this.rings = Array.from(rings);
         this.connectEventsThread(new EventTarget());
