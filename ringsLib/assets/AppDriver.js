@@ -1,5 +1,6 @@
-import Constellation from './Constellation.js';
 import Events from './events.js';
+
+import Constellation from './Constellation.js';
 import Task from './Task.js';
 
 var _constellationInstance;
