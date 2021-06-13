@@ -16,7 +16,7 @@ export default class BaseClass {
      */
     static from(obj) {
         var rt = new this(obj);
-        var rtKeys = Object.keys(rt).sort();
+        var rtKeys = Object.keys(rt.toJSON()).sort();
         var objKeys = Object.keys(obj).sort();
         if (rtKeys.length !== objKeys.length ||
             rtKeys.join() !== objKeys.join())
