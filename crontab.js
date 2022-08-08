@@ -1,6 +1,7 @@
 module.exports = [{
         "cronExp": "* * * * * *",
-        "cronFunc": function() { console.log("Each second", arguments[0].toISOString(), (new Date()).toISOString()) }
+        "cronFunc": function() { console.log("This job runs every second since", arguments[0].toLocaleString(),
+        ". Now is" (new Date()).toLocaleString()) }
     },
     {
         "cronExp": "* * * * * *",
@@ -8,14 +9,14 @@ module.exports = [{
     },
     {
         "cronExp": "*/3 * * * * *",
-        "cronFunc": () => console.log("Every 3 seconds")
+        "cronFunc": () => console.log("This job runs every THREE seconds")
     },
     {
         "cronExp": "*/5 * * * * *",
-        "cronFunc": () => console.log("Every 5 seconds")
+        "cronFunc": () => console.log("This job runs every FIVE seconds")
     },
     {
         "cronExp": "*/7 * * * * *",
-        "cronFunc": () => console.log("Every 7 seconds")
+        "cronFunc": () => console.log("This job runs every SEVEN seconds")
     },
 ]
