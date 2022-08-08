@@ -8,7 +8,7 @@
 ## ring
 a ring has:
 - a name
-- a task list
+- a list of targets
 a ring can:
 - add task to list
 - remove task from list
@@ -59,8 +59,9 @@ In the review event you pick up which tasks:
          ·.·
         ·.·.·
        ·.·.·.·
-Every time a task is moved forward an, a prompt appears to ask if an
-atomization should be applied to this task.
+Every time a task is moved forward an, a prompt is fired to ask the
+user if an atomization should be applied to the task. 
+(This firing event can be improved by heuristics).
 Then a atomization event occurs.
 In the atomization event, the user can split the task into many subtasks.
 Then they will inherit the new ring of the parent task, and they will 
@@ -70,4 +71,4 @@ be marked with a special non-removable tag that points to the parent task
         =>{###}=>
 Every time a condition of any periodic task is met, the its action list
 must be executed. This list will have commands to either create or delete 
-regular tasks, but only this.
+(or mark as expired) regular tasks, but only this.
