@@ -13,7 +13,7 @@ const path = require('path');
 (function() {
     "use strict";
 
-    const _procsArr = [];
+    var _procsArr = [];
     var _tabFile = 'crontab.js';
     var _refreshRate = '* * * * *';
 
