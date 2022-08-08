@@ -5,7 +5,11 @@ module.exports = [{
     },
     {
         "cronExp": "* * * * * *",
-        "cronFunc": createTask
+        "cronFunc": () => {
+            this.count ||= 0;
+            console.log("This job has a runtime and can count up to ", ++this.count);
+        },
+        "runtimeId": "5asod320j"
     },
     {
         "cronExp": "*/3 * * * * *",
