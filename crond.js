@@ -13,10 +13,10 @@ const path = require('path');
 (function() {
     "use strict";
 
+    const _runtimes = {};
     var _procsArr = [];
     var _tabFile = 'crontab.js';
     var _refreshRate = '* * * * *';
-
     // Helper fn: prints usage (--help)
     const _printHelp = () => process.stdout.write(`Usage: crond.js [options] [ cronTabFile.js ]
 
@@ -32,14 +32,25 @@ Options:
 
     // helper fn: loads crontab file
     const _loadJobsTab = () => require(path.join(__dirname, _tabFile));
-    
+
+    const _getEmptyRuntime = () => ({});
+    const _getRuntimeById = (runtimeId) => {
+        _runtimes[runtimeId] ||= _getEmptyRuntime();
+        return _runtimes[runtimeId];
+    };
+
     // helper fn: loads cron tasks and restart them
     const _refreshProcess = () => {
         var jobsTab = _loadJobsTab() || [];
         process.stdout.write(`${(new Date()).toLocaleString()} CRON TAB LOADED: ${jobsTab.length} JOBS\n`);
         if (jobsTab.length) {
+            // Stop jobs
             _procsArr.forEach(p => p.stop());
-            _procsArr = jobsTab.map(job => cron.schedule(job.cronExp, job.cronFunc.bind(this, (new Date()))));
+            // Restart jobs
+            _procsArr = jobsTab.map(job => cron.schedule(
+                job.cronExp,
+                job.cronFunc.bind(job.runtimeId ? _getRuntimeById(job.runtimeId) : _getEmptyRuntime(), (new Date()))
+            ));
         }
     };
 
