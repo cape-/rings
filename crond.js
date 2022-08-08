@@ -13,6 +13,11 @@ const path = require('path');
 (function() {
     "use strict";
 
+    const _procsArr = [];
+    var _tabFile = 'crontab.js';
+    var _refreshRate = '* * * * *';
+
+    // Helper fn: prints usage (--help)
     const _printHelp = () => process.stdout.write(`Usage: crond.js [options] [ cronTabFile.js ]
 
 Options:
@@ -25,11 +30,20 @@ Options:
     
   Note: Run as \`crond.js myCronTab.js\` or \`crond.js --tab-file myCronTab.js\` have the same effect\n`);
 
+    // helper fn: loads crontab file
     const _loadJobsTab = () => require(path.join(__dirname, _tabFile));
+    
+    // helper fn: loads cron tasks and restart them
+    const _refreshProcess = () => {
+        var jobsTab = _loadJobsTab() || [];
+        process.stdout.write(`${(new Date()).toLocaleString()} CRON TAB LOADED: ${jobsTab.length} JOBS\n`);
+        if (jobsTab.length) {
+            _procsArr.forEach(p => p.stop());
+            _procsArr = jobsTab.map(job => cron.schedule(job.cronExp, job.cronFunc.bind(this, (new Date()))));
+        }
+    };
 
-    var _tabFile = 'crontab.js';
-    var _refreshRate = '* * * * *';
-
+    //////// Main logic: parse arguments
     const params = parseArgv(process.argv);
     if (params.help)
         return _printHelp();
@@ -46,17 +60,7 @@ Options:
         params.refreshRate === '2h' ? '0 */2 * * *' :
         _refreshRate;
 
-    var _procsArr = [];
-
-    const _refreshProcess = () => {
-        var jobsTab = _loadJobsTab() || [];
-        process.stdout.write(`${(new Date()).toLocaleString()} CRON TAB LOADED: ${jobsTab.length} JOBS\n`);
-        if (jobsTab.length) {
-            _procsArr.forEach(p => p.stop());
-            _procsArr = jobsTab.map(job => cron.schedule(job.cronExp, job.cronFunc.bind(this, (new Date()))));
-        }
-    };
-    // Entry point
+    // Trigger cron && force first run
     cron.schedule(_refreshRate, _refreshProcess);
     _refreshProcess();
 })();
