@@ -8,7 +8,7 @@
 ## ring
 a ring has:
 - a name
-- a list of targets
+- a list of tasks
 a ring can:
 - add task to list
 - remove task from list
