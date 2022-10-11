@@ -1,0 +1,83 @@
+body, div.root {
+  width: 100%;
+  height: 100%;
+  background-color: lightblue;
+  margin: 0;
+  overflow: hidden;
+}
+
+h1.appTitle {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  margin: 0;
+  padding: 5px 0 8px 0;
+  background: gold;
+  font-family: sans-serif;
+  font-weight: bolder;
+  text-align: center;
+  font-size: 22px;
+}
+
+div.container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  width: 800px;
+  height: 800px;
+}
+
+div.circle{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(100% - 130px);
+  height: calc(100% - 130px);
+  border-radius: 50%;
+  border: solid 1px #013f65;
+  background: #01567d;  
+  background: radial-gradient(circle, rgba(0,212,255,1) 0%, rgba(2,0,36,1) 100%);  
+  background-clip: content-box;
+}
+
+div.circle:hover{
+  background: rgb(0,212,255);
+  background: radial-gradient(circle, rgba(0,212,255,1) 20%, rgba(2,0,36,1) 100%);  
+}
+
+div.circle.go {
+  background: rgb(2,0,36);
+  background: radial-gradient(circle, rgba(2,0,36,1) 0%, rgba(0,0,0,1) 100%);  
+}
+
+div.task {
+  width: 0px;
+  height: 0px;
+  position: relative;
+  top: -25%;
+  left: -10%;
+}
+
+div.task > span {
+  display: block;
+  width: 80px;
+  height: auto;
+  background: #201500;
+  color: gold;
+  padding: 8px;
+  border: 1px solid gold;
+  border-top: 5px solid gold;
+  border-radius: 10px;
+  font-family: sans-serif;
+  font-size: 11px;
+}
+
+div.task > span:hover {
+  background: #403000;
+  color: gold;
+  padding: 7px;
+  border: 2px solid gold;
+  border-top: 6px solid gold;
+  cursor: pointer;
+}
